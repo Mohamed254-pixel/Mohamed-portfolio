@@ -1,28 +1,10 @@
 const architecture = [
-  {
-    label: "Source",
-    value: "Apple Music CSV",
-  },
-  {
-    label: "Processing",
-    value: "Python",
-  },
-  {
-    label: "Transform",
-    value: "Pandas",
-  },
-  {
-    label: "Storage",
-    value: "PostgreSQL",
-  },
-  {
-    label: "Analytics",
-    value: "SQL",
-  },
-  {
-    label: "In Progress",
-    value: "Analytics Agent",
-  },
+  { label: "Source", value: "Apple Music CSV" },
+  { label: "Processing", value: "Python" },
+  { label: "Transform", value: "Pandas" },
+  { label: "Storage", value: "PostgreSQL" },
+  { label: "Analytics", value: "SQL" },
+  { label: "In Progress", value: "Analytics Agent" },
 ];
 
 export default function MusicInsightsProject() {
@@ -39,16 +21,14 @@ export default function MusicInsightsProject() {
         </a>
 
         {/* HERO */}
-        <section className="pt-16 pb-20">
+        <section className="pt-16 pb-14">
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <p className="text-xs tracking-[0.35em] text-zinc-600 uppercase">
-              Featured Data + AI
-              Project
+              Featured Data + AI Project
             </p>
 
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
-
               Active Development
             </span>
           </div>
@@ -60,32 +40,22 @@ export default function MusicInsightsProject() {
           </h1>
 
           <p className="mt-7 max-w-3xl text-zinc-500 leading-7">
-            An end-to-end music
-            analytics system that
-            transforms Apple Music
-            listening history into
-            structured data and builds
-            toward an analytics agent
-            that answers questions from
-            verified SQL results.
+            An end-to-end music analytics system that transforms Apple Music
+            listening history into structured data and is being extended toward
+            an analytics agent that answers questions from verified SQL results.
           </p>
 
           <div className="flex flex-wrap gap-3 mt-8">
-            {[
-              "Python",
-              "PostgreSQL",
-              "SQL",
-              "ETL",
-              "Pandas",
-              "AI",
-            ].map((item) => (
-              <span
-                key={item}
-                className="px-3 py-2 border border-white/10 rounded-lg text-xs text-zinc-500 bg-white/[0.02]"
-              >
-                {item}
-              </span>
-            ))}
+            {["Python", "PostgreSQL", "SQL", "ETL", "Pandas", "AI"].map(
+              (item) => (
+                <span
+                  key={item}
+                  className="px-3 py-2 border border-white/10 rounded-lg text-xs text-zinc-500 bg-white/[0.02]"
+                >
+                  {item}
+                </span>
+              )
+            )}
           </div>
 
           <div className="flex flex-wrap gap-3 mt-8">
@@ -109,55 +79,129 @@ export default function MusicInsightsProject() {
           </div>
         </section>
 
+        {/* VISUAL BANNER */}
+        <section className="pb-20">
+          <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] overflow-hidden">
+            <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="p-6 md:p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-white/10">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-600 mb-5">
+                  Project Visual
+                </p>
+
+                <div className="rounded-3xl border border-white/10 bg-black/30 p-5 md:p-6">
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 h-24 flex flex-col justify-between">
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-700">
+                        source
+                      </span>
+                      <span className="text-sm text-zinc-300">
+                        Apple Music Export
+                      </span>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 h-24 flex flex-col justify-between">
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-700">
+                        transform
+                      </span>
+                      <span className="text-sm text-zinc-300">
+                        Pandas ETL
+                      </span>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 h-24 flex flex-col justify-between">
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-700">
+                        output
+                      </span>
+                      <span className="text-sm text-zinc-300">
+                        SQL Insights
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-5">
+                    <div className="flex items-end gap-2 h-40">
+                      {[22, 40, 30, 58, 72, 44, 66, 80, 51, 68, 94, 70, 84, 62].map(
+                        (height, index) => (
+                          <div
+                            key={index}
+                            className="flex-1 rounded-t-xl bg-white/70"
+                            style={{ height: `${height}%`, opacity: 0.15 + index * 0.03 }}
+                          />
+                        )
+                      )}
+                    </div>
+
+                    <div className="flex justify-between mt-4 text-[10px] uppercase tracking-[0.18em] text-zinc-700">
+                      <span>playback activity</span>
+                      <span>listening patterns</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 md:p-8 lg:p-10">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-600 mb-5">
+                  What this shows
+                </p>
+
+                <div className="space-y-4">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-700">
+                      scale
+                    </p>
+                    <p className="mt-3 text-2xl font-semibold">278K+</p>
+                    <p className="mt-2 text-sm text-zinc-500">
+                      source rows processed from listening-history exports
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-700">
+                      behavior
+                    </p>
+                    <p className="mt-3 text-2xl font-semibold">172K+</p>
+                    <p className="mt-2 text-sm text-zinc-500">
+                      PLAY_END events isolated for cleaner playback analysis
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-700">
+                      next layer
+                    </p>
+                    <p className="mt-3 text-lg font-semibold">
+                      SQL-first analytics agent
+                    </p>
+                    <p className="mt-2 text-sm text-zinc-500">
+                      answers questions from verified database results
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* METRICS */}
         <section className="grid md:grid-cols-4 gap-4 mb-20">
           {[
-            [
-              "01",
-              "Source Rows",
-              "278K+",
-            ],
-            [
-              "02",
-              "PLAY_END Events",
-              "172K+",
-            ],
-            [
-              "03",
-              "Pipeline",
-              "ETL",
-            ],
-            [
-              "04",
-              "Analytics",
-              "SQL",
-            ],
-          ].map(
-            ([
-              number,
-              label,
-              value,
-            ]) => (
-              <div
-                key={label}
-                className="info-card"
-              >
-                <span className="text-zinc-600 text-xs">
-                  {number}
-                </span>
+            ["01", "Source Rows", "278K+"],
+            ["02", "PLAY_END Events", "172K+"],
+            ["03", "Pipeline", "ETL"],
+            ["04", "Analytics", "SQL"],
+          ].map(([number, label, value]) => (
+            <div key={label} className="info-card">
+              <span className="text-zinc-600 text-xs">{number}</span>
 
-                <div>
-                  <p className="text-xs text-zinc-500 uppercase tracking-[0.2em]">
-                    {label}
-                  </p>
+              <div>
+                <p className="text-xs text-zinc-500 uppercase tracking-[0.2em]">
+                  {label}
+                </p>
 
-                  <p className="text-2xl font-semibold mt-1">
-                    {value}
-                  </p>
-                </div>
+                <p className="text-2xl font-semibold mt-1">{value}</p>
               </div>
-            )
-          )}
+            </div>
+          ))}
         </section>
 
         {/* OVERVIEW */}
@@ -168,38 +212,25 @@ export default function MusicInsightsProject() {
             </p>
 
             <h2 className="text-4xl font-bold">
-              From raw listening
-              history to structured
-              analytics.
+              From raw listening history to structured analytics.
             </h2>
           </div>
 
           <div className="space-y-5 text-zinc-500 leading-7">
             <p>
-              Apple Music exports can
-              contain hundreds of
-              thousands of activity
-              records and many sparse
-              or inconsistent fields.
+              Apple Music exports can contain hundreds of thousands of activity
+              records and many sparse or inconsistent fields.
             </p>
 
             <p>
-              Python and Pandas are used
-              to profile, clean, filter,
-              and transform the raw
-              listening data into more
-              useful playback events.
+              Python and Pandas are used to profile, clean, filter, and
+              transform the raw listening data into more useful playback events.
             </p>
 
             <p>
-              The structured output is
-              designed for PostgreSQL
-              and SQL-based analysis.
-              The next layer is an
-              analytics agent that uses
-              verified query results
-              instead of inventing
-              answers from raw data.
+              The structured output is designed for PostgreSQL and SQL-based
+              analysis. The next layer is an analytics agent that uses verified
+              query results instead of inventing answers from raw data.
             </p>
           </div>
         </section>
@@ -212,61 +243,44 @@ export default function MusicInsightsProject() {
                 Architecture
               </p>
 
-              <h2 className="text-4xl font-bold">
-                Data flow
-              </h2>
+              <h2 className="text-4xl font-bold">Data flow</h2>
             </div>
 
             <p className="max-w-lg text-sm text-zinc-600 leading-6">
-              The agent is shown as the
-              final layer because it is
-              the part currently being
-              developed.
+              The agent is shown as the final layer because it is the part
+              currently being developed.
             </p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-5 md:p-8">
             <div className="flex flex-col md:flex-row md:items-stretch gap-3">
-              {architecture.map(
-                (step, index) => (
-                  <div
-                    key={step.value}
-                    className="contents"
-                  >
-                    <div className="flex-1 min-w-0 rounded-2xl border border-white/10 bg-black/25 p-5">
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-700">
-                        {step.label}
-                      </p>
+              {architecture.map((step, index) => (
+                <div key={step.value} className="contents">
+                  <div className="flex-1 min-w-0 rounded-2xl border border-white/10 bg-black/25 p-5">
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-700">
+                      {step.label}
+                    </p>
 
-                      <p className="mt-3 text-sm font-medium text-zinc-300">
-                        {step.value}
-                      </p>
-                    </div>
-
-                    {index <
-                      architecture.length -
-                        1 && (
-                      <div className="flex items-center justify-center text-zinc-700 px-1">
-                        <span className="hidden md:inline">
-                          →
-                        </span>
-
-                        <span className="md:hidden py-1">
-                          ↓
-                        </span>
-                      </div>
-                    )}
+                    <p className="mt-3 text-sm font-medium text-zinc-300">
+                      {step.value}
+                    </p>
                   </div>
-                )
-              )}
+
+                  {index < architecture.length - 1 && (
+                    <div className="flex items-center justify-center text-zinc-700 px-1">
+                      <span className="hidden md:inline">→</span>
+                      <span className="md:hidden py-1">↓</span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.01] p-5">
             <p className="text-xs text-zinc-600 leading-6">
-              Apple Music CSV → Python
-              → Pandas → PostgreSQL →
-              SQL → Analytics Agent
+              Apple Music CSV → Python → Pandas → PostgreSQL → SQL → Analytics
+              Agent
             </p>
           </div>
         </section>
@@ -278,8 +292,7 @@ export default function MusicInsightsProject() {
           </p>
 
           <h2 className="text-4xl font-bold mb-10">
-            Why the pipeline is
-            designed this way
+            Why the pipeline is designed this way
           </h2>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -300,22 +313,18 @@ export default function MusicInsightsProject() {
                 "Read-only Agent Boundary",
                 "The analytics agent is being designed as a read-only layer that answers from verified database results instead of changing the underlying data.",
               ],
-            ].map(
-              ([title, text]) => (
-                <article
-                  key={title}
-                  className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
-                >
-                  <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
-                    {title}
-                  </p>
+            ].map(([title, text]) => (
+              <article
+                key={title}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
+                  {title}
+                </p>
 
-                  <p className="mt-4 text-sm leading-6 text-zinc-400">
-                    {text}
-                  </p>
-                </article>
-              )
-            )}
+                <p className="mt-4 text-sm leading-6 text-zinc-400">{text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -343,22 +352,18 @@ export default function MusicInsightsProject() {
                 "Outcome",
                 "The pipeline processed 278K+ source rows and identified 172K+ PLAY_END events, creating a structured foundation for repeatable listening analysis.",
               ],
-            ].map(
-              ([title, text]) => (
-                <article
-                  key={title}
-                  className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
-                >
-                  <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
-                    {title}
-                  </p>
+            ].map(([title, text]) => (
+              <article
+                key={title}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
+                  {title}
+                </p>
 
-                  <p className="mt-4 text-sm leading-6 text-zinc-400">
-                    {text}
-                  </p>
-                </article>
-              )
-            )}
+                <p className="mt-4 text-sm leading-6 text-zinc-400">{text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -381,9 +386,7 @@ export default function MusicInsightsProject() {
                 key={feature}
                 className="border border-white/10 rounded-2xl p-6 bg-white/[0.02]"
               >
-                <p className="text-zinc-400">
-                  {feature}
-                </p>
+                <p className="text-zinc-400">{feature}</p>
               </div>
             ))}
           </div>
@@ -398,7 +401,6 @@ export default function MusicInsightsProject() {
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-7 md:p-9">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
-
               Active Development
             </span>
 
@@ -407,13 +409,9 @@ export default function MusicInsightsProject() {
             </h2>
 
             <p className="mt-4 max-w-2xl text-zinc-500 leading-7">
-              The next phase connects
-              the structured analytics
-              layer to a controlled
-              natural-language
-              interface while keeping
-              SQL results as the source
-              of truth.
+              The next phase connects the structured analytics layer to a
+              controlled natural-language interface while keeping SQL results as
+              the source of truth.
             </p>
           </div>
         </section>
