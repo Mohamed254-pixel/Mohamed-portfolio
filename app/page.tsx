@@ -1754,16 +1754,11 @@ export default function Home() {
                 ],
                 [
                   "04",
-                  "Availability",
-                  "Summer 2027 + earlier opportunities",
-                ],
-                [
-                  "05",
                   "Core Stack",
                   "Python · SQL · ETL",
                 ],
                 [
-                  "06",
+                  "05",
                   "In Progress",
                   "Agent layer + pipeline reliability",
                 ],
