@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   SiPython,
@@ -36,7 +41,7 @@ import {
 const techCategories = [
   {
     name: "Languages",
-    description: "Core programming and querying",
+    description: "Programming and querying",
     items: [
       { Icon: SiPython, name: "Python" },
       { Icon: LuDatabase, name: "SQL" },
@@ -44,7 +49,7 @@ const techCategories = [
   },
   {
     name: "Databases",
-    description: "Relational storage and modeling",
+    description: "Relational storage and querying",
     items: [
       { Icon: SiPostgresql, name: "PostgreSQL" },
       { Icon: SiMysql, name: "MySQL" },
@@ -52,17 +57,29 @@ const techCategories = [
   },
   {
     name: "Data Engineering",
-    description: "Pipelines, transforms, and integrations",
+    description: "Building reliable data systems",
     items: [
       { Icon: LuWorkflow, name: "ETL" },
       { Icon: LuBraces, name: "APIs" },
+      { Icon: LuDatabase, name: "Data Modeling" },
+    ],
+  },
+  {
+    name: "Libraries",
+    description: "Data processing and analysis",
+    items: [
       { Icon: SiPandas, name: "Pandas" },
+      { Icon: LuBraces, name: "NumPy" },
+      { Icon: LuLayers3, name: "Matplotlib" },
     ],
   },
   {
     name: "Tools",
-    description: "Workflow and version control",
-    items: [{ Icon: SiGit, name: "Git" }],
+    description: "Development and version control",
+    items: [
+      { Icon: SiGit, name: "Git" },
+      { Icon: LuGithub, name: "GitHub" },
+    ],
   },
 ];
 
@@ -120,32 +137,44 @@ function Reveal({
   className = "",
   delay = 0,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   delay?: number;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref =
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
   useEffect(() => {
     const node = ref.current;
 
     if (!node) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          node.classList.add("is-visible");
-          observer.unobserve(node);
+    const observer =
+      new IntersectionObserver(
+        ([entry]) => {
+          if (
+            entry.isIntersecting
+          ) {
+            node.classList.add(
+              "is-visible"
+            );
+
+            observer.unobserve(
+              node
+            );
+          }
+        },
+        {
+          threshold: 0.14,
         }
-      },
-      {
-        threshold: 0.14,
-      }
-    );
+      );
 
     observer.observe(node);
 
-    return () => observer.disconnect();
+    return () =>
+      observer.disconnect();
   }, []);
 
   return (
@@ -161,6 +190,20 @@ function Reveal({
   );
 }
 
+function StatusBadge({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
+
+      {children}
+    </span>
+  );
+}
+
 function CommandPalette({
   open,
   onClose,
@@ -168,7 +211,8 @@ function CommandPalette({
   open: boolean;
   onClose: () => void;
 }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] =
+    useState("");
 
   useEffect(() => {
     if (!open) {
@@ -176,12 +220,15 @@ function CommandPalette({
       return;
     }
 
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+      "hidden";
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow =
+        previousOverflow;
     };
   }, [open]);
 
@@ -199,8 +246,14 @@ function CommandPalette({
       href: "#experience",
     },
     {
+      label: "Education",
+      hint: "View education",
+      icon: LuFileText,
+      href: "#education",
+    },
+    {
       label: "Portfolio",
-      hint: "Jump to section",
+      hint: "View projects",
       icon: LuLayers3,
       href: "#portfolio",
     },
@@ -246,25 +299,39 @@ function CommandPalette({
     },
   ];
 
-  const filtered = actions.filter((action) =>
-    `${action.label} ${action.hint}`
-      .toLowerCase()
-      .includes(query.toLowerCase())
-  );
+  const filtered =
+    actions.filter((action) =>
+      `${action.label} ${action.hint}`
+        .toLowerCase()
+        .includes(
+          query.toLowerCase()
+        )
+    );
 
   if (!open) return null;
 
-  function handleAction(action: (typeof actions)[number]) {
+  function handleAction(
+    action: (typeof actions)[number]
+  ) {
     if (action.external) {
-      window.open(action.href, "_blank", "noopener,noreferrer");
-    } else if (action.href.startsWith("#")) {
+      window.open(
+        action.href,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    } else if (
+      action.href.startsWith("#")
+    ) {
       document
-        .querySelector(action.href)
+        .querySelector(
+          action.href
+        )
         ?.scrollIntoView({
           behavior: "smooth",
         });
     } else {
-      window.location.href = action.href;
+      window.location.href =
+        action.href;
     }
 
     onClose();
@@ -277,7 +344,10 @@ function CommandPalette({
       aria-modal="true"
       aria-label="Quick navigation"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
+        if (
+          event.target ===
+          event.currentTarget
+        ) {
           onClose();
         }
       }}
@@ -293,18 +363,28 @@ function CommandPalette({
             autoFocus
             value={query}
             onChange={(event) =>
-              setQuery(event.target.value)
+              setQuery(
+                event.target.value
+              )
             }
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
+            onKeyDown={(
+              event
+            ) => {
+              if (
+                event.key ===
+                "Escape"
+              ) {
                 onClose();
               }
 
               if (
-                event.key === "Enter" &&
+                event.key ===
+                  "Enter" &&
                 filtered[0]
               ) {
-                handleAction(filtered[0]);
+                handleAction(
+                  filtered[0]
+                );
               }
             }}
             placeholder="Search navigation..."
@@ -323,46 +403,58 @@ function CommandPalette({
 
         <div className="command-list">
           {filtered.length > 0 ? (
-            filtered.map((action) => {
-              const Icon = action.icon;
+            filtered.map(
+              (action) => {
+                const Icon =
+                  action.icon;
 
-              return (
-                <button
-                  key={action.label}
-                  type="button"
-                  className="command-item"
-                  onClick={() =>
-                    handleAction(action)
-                  }
-                >
-                  <span className="command-item-left">
-                    <span className="command-icon">
-                      <Icon
-                        className="h-4 w-4"
-                        aria-hidden="true"
-                      />
-                    </span>
-
-                    <span>
-                      <span className="command-label">
-                        {action.label}
+                return (
+                  <button
+                    key={
+                      action.label
+                    }
+                    type="button"
+                    className="command-item"
+                    onClick={() =>
+                      handleAction(
+                        action
+                      )
+                    }
+                  >
+                    <span className="command-item-left">
+                      <span className="command-icon">
+                        <Icon
+                          className="h-4 w-4"
+                          aria-hidden="true"
+                        />
                       </span>
 
-                      <span className="command-hint">
-                        {action.hint}
+                      <span>
+                        <span className="command-label">
+                          {
+                            action.label
+                          }
+                        </span>
+
+                        <span className="command-hint">
+                          {
+                            action.hint
+                          }
+                        </span>
                       </span>
                     </span>
-                  </span>
 
-                  <span className="text-zinc-700">
-                    ↗
-                  </span>
-                </button>
-              );
-            })
+                    <span className="text-zinc-700">
+                      ↗
+                    </span>
+                  </button>
+                );
+              }
+            )
           ) : (
             <div className="command-empty">
-              No matching actions.
+              No matching
+              actions.
             </div>
           )}
         </div>
@@ -370,7 +462,9 @@ function CommandPalette({
         <div className="command-footer">
           <span>↵ open</span>
           <span>esc close</span>
-          <span>⌘K reopen anytime</span>
+          <span>
+            ⌘K reopen anytime
+          </span>
         </div>
       </div>
     </div>
@@ -378,44 +472,57 @@ function CommandPalette({
 }
 
 function TerminalCard() {
-  const [command, setCommand] = useState("");
+  const [command, setCommand] =
+    useState("");
 
-  const [history, setHistory] = useState<
-    {
-      cmd: string;
-      out: string;
-    }[]
-  >([
-    {
-      cmd: "help",
-      out: "Try a command or tap one below.",
-    },
-  ]);
+  const [history, setHistory] =
+    useState<
+      {
+        cmd: string;
+        out: string;
+      }[]
+    >([
+      {
+        cmd: "help",
+        out: "Try a command or tap one below.",
+      },
+    ]);
 
-  const [commandHistory, setCommandHistory] =
-    useState<string[]>([]);
+  const [
+    commandHistory,
+    setCommandHistory,
+  ] = useState<string[]>([]);
 
-  const [historyIndex, setHistoryIndex] =
-    useState(-1);
+  const [
+    historyIndex,
+    setHistoryIndex,
+  ] = useState(-1);
 
   const suggestions = [
     "whoami",
     "skills",
+    "education",
     "projects",
     "resume",
     "github",
     "contact",
   ];
 
-  const responses: Record<string, string> = {
+  const responses: Record<
+    string,
+    string
+  > = {
     whoami:
       "Mohamed Ibrahim — MIS student focused on data engineering, analytics, and AI.",
 
     skills:
-      "Python · SQL · PostgreSQL · MySQL · Pandas · ETL · APIs · Git",
+      "Languages: Python, SQL · Databases: PostgreSQL, MySQL · Data Engineering: ETL, APIs, Data Modeling · Libraries: Pandas, NumPy, Matplotlib · Tools: Git, GitHub",
 
     focus:
       "Reliable pipelines, clean data models, analytics systems, and AI-powered tools.",
+
+    education:
+      "San José State University · B.S. Business Administration — Management Information Systems · Expected 2027.",
 
     projects:
       "Opening the portfolio showcase...",
@@ -430,22 +537,27 @@ function TerminalCard() {
       "Email: mohamedibrahim.sjsu@gmail.com · Phone: 408-618-9877",
 
     help:
-      "Commands: whoami, skills, focus, projects, resume, github, contact, clear",
+      "Commands: whoami, skills, focus, education, projects, resume, github, contact, clear",
   };
 
-  function executeCommand(rawValue: string) {
+  function executeCommand(
+    rawValue: string
+  ) {
     const value = rawValue
       .trim()
       .toLowerCase();
 
     if (!value) return;
 
-    setCommandHistory((prev) => [
-      ...prev.filter(
-        (item) => item !== value
-      ),
-      value,
-    ]);
+    setCommandHistory(
+      (prev) => [
+        ...prev.filter(
+          (item) =>
+            item !== value
+        ),
+        value,
+      ]
+    );
 
     setHistoryIndex(-1);
 
@@ -455,30 +567,46 @@ function TerminalCard() {
       return;
     }
 
-    const nextEntry = {
-      cmd: value,
-      out:
-        responses[value] ??
-        `command not found: ${value}. Type "help".`,
-    };
-
     setHistory((prev) => [
       ...prev,
-      nextEntry,
+      {
+        cmd: value,
+        out:
+          responses[value] ??
+          `command not found: ${value}. Type "help".`,
+      },
     ]);
 
     setCommand("");
 
     window.setTimeout(() => {
-      if (value === "projects") {
+      if (
+        value === "projects"
+      ) {
         document
-          .querySelector("#portfolio")
+          .querySelector(
+            "#portfolio"
+          )
           ?.scrollIntoView({
             behavior: "smooth",
           });
       }
 
-      if (value === "resume") {
+      if (
+        value === "education"
+      ) {
+        document
+          .querySelector(
+            "#education"
+          )
+          ?.scrollIntoView({
+            behavior: "smooth",
+          });
+      }
+
+      if (
+        value === "resume"
+      ) {
         window.open(
           "/resume.pdf",
           "_blank",
@@ -486,7 +614,9 @@ function TerminalCard() {
         );
       }
 
-      if (value === "github") {
+      if (
+        value === "github"
+      ) {
         window.open(
           "https://github.com/Mohamed254-pixel",
           "_blank",
@@ -497,25 +627,37 @@ function TerminalCard() {
   }
 
   function moveThroughHistory(
-    direction: "up" | "down"
+    direction:
+      | "up"
+      | "down"
   ) {
-    if (commandHistory.length === 0) {
+    if (
+      commandHistory.length ===
+      0
+    ) {
       return;
     }
 
-    if (direction === "up") {
+    if (
+      direction === "up"
+    ) {
       const nextIndex =
         historyIndex < 0
-          ? commandHistory.length - 1
+          ? commandHistory.length -
+            1
           : Math.max(
               0,
               historyIndex - 1
             );
 
-      setHistoryIndex(nextIndex);
+      setHistoryIndex(
+        nextIndex
+      );
 
       setCommand(
-        commandHistory[nextIndex]
+        commandHistory[
+          nextIndex
+        ]
       );
 
       return;
@@ -533,10 +675,14 @@ function TerminalCard() {
       return;
     }
 
-    setHistoryIndex(nextIndex);
+    setHistoryIndex(
+      nextIndex
+    );
 
     setCommand(
-      commandHistory[nextIndex]
+      commandHistory[
+        nextIndex
+      ]
     );
   }
 
@@ -550,7 +696,8 @@ function TerminalCard() {
         </div>
 
         <span className="text-[10px] text-zinc-700 tracking-[0.2em] uppercase">
-          mohamed.dev / terminal
+          mohamed.dev /
+          terminal
         </span>
       </div>
 
@@ -559,7 +706,9 @@ function TerminalCard() {
           {suggestions.map(
             (suggestion) => (
               <button
-                key={suggestion}
+                key={
+                  suggestion
+                }
                 type="button"
                 onClick={() =>
                   executeCommand(
@@ -576,7 +725,10 @@ function TerminalCard() {
 
         <div className="terminal-history">
           {history.map(
-            (item, index) => (
+            (
+              item,
+              index
+            ) => (
               <div
                 key={`${item.cmd}-${index}`}
                 className="mb-5"
@@ -608,9 +760,12 @@ function TerminalCard() {
                 event.target.value
               )
             }
-            onKeyDown={(event) => {
+            onKeyDown={(
+              event
+            ) => {
               if (
-                event.key === "Enter"
+                event.key ===
+                "Enter"
               ) {
                 executeCommand(
                   command
@@ -618,18 +773,22 @@ function TerminalCard() {
               }
 
               if (
-                event.key === "ArrowUp"
+                event.key ===
+                "ArrowUp"
               ) {
                 event.preventDefault();
+
                 moveThroughHistory(
                   "up"
                 );
               }
 
               if (
-                event.key === "ArrowDown"
+                event.key ===
+                "ArrowDown"
               ) {
                 event.preventDefault();
+
                 moveThroughHistory(
                   "down"
                 );
@@ -643,9 +802,17 @@ function TerminalCard() {
         </div>
 
         <div className="terminal-help-row">
-          <span>↑↓ history</span>
-          <span>↵ run command</span>
-          <span>clear resets</span>
+          <span>
+            ↑↓ history
+          </span>
+
+          <span>
+            ↵ run command
+          </span>
+
+          <span>
+            clear resets
+          </span>
         </div>
       </div>
     </div>
@@ -713,7 +880,9 @@ export default function Home() {
   const [
     openExperience,
     setOpenExperience,
-  ] = useState<number | null>(0);
+  ] = useState<
+    number | null
+  >(0);
 
   const [
     isScrolled,
@@ -753,7 +922,8 @@ export default function Home() {
       }
 
       if (
-        event.key === "Escape"
+        event.key ===
+        "Escape"
       ) {
         setCommandOpen(false);
       }
@@ -776,6 +946,7 @@ export default function Home() {
       "home",
       "about",
       "experience",
+      "education",
       "portfolio",
       "contact",
     ];
@@ -802,7 +973,9 @@ export default function Home() {
           }
         }
 
-        setActiveSection(current);
+        setActiveSection(
+          current
+        );
 
         setShowBackToTop(
           window.scrollY > 700
@@ -863,6 +1036,24 @@ export default function Home() {
       );
     };
   }, []);
+
+  const navItems = [
+    ["Home", "#home"],
+    ["About", "#about"],
+    [
+      "Experience",
+      "#experience",
+    ],
+    [
+      "Education",
+      "#education",
+    ],
+    [
+      "Portfolio",
+      "#portfolio",
+    ],
+    ["Contact", "#contact"],
+  ];
 
   return (
     <main
@@ -948,29 +1139,8 @@ export default function Home() {
               mohamed.dev
             </a>
 
-            <div className="hidden md:flex items-center gap-8 text-sm text-zinc-500">
-              {[
-                [
-                  "Home",
-                  "#home",
-                ],
-                [
-                  "About",
-                  "#about",
-                ],
-                [
-                  "Experience",
-                  "#experience",
-                ],
-                [
-                  "Portfolio",
-                  "#portfolio",
-                ],
-                [
-                  "Contact",
-                  "#contact",
-                ],
-              ].map(
+            <div className="hidden lg:flex items-center gap-6 text-sm">
+              {navItems.map(
                 ([
                   label,
                   href,
@@ -1063,28 +1233,7 @@ export default function Home() {
             }`}
           >
             <div className="pt-4 pb-1 grid gap-1">
-              {[
-                [
-                  "Home",
-                  "#home",
-                ],
-                [
-                  "About",
-                  "#about",
-                ],
-                [
-                  "Experience",
-                  "#experience",
-                ],
-                [
-                  "Portfolio",
-                  "#portfolio",
-                ],
-                [
-                  "Contact",
-                  "#contact",
-                ],
-              ].map(
+              {navItems.map(
                 ([
                   label,
                   href,
@@ -1222,6 +1371,7 @@ export default function Home() {
                     "SQL",
                     "ETL",
                     "APIs",
+                    "Data Modeling",
                   ].map(
                     (skill) => (
                       <span
@@ -1419,8 +1569,8 @@ export default function Home() {
               ],
               [
                 "02",
-                "Certifications",
-                "1",
+                "Certification",
+                "Google Data Analytics",
               ],
               [
                 "03",
@@ -1446,7 +1596,7 @@ export default function Home() {
                       {label}
                     </p>
 
-                    <p className="mt-1 text-2xl font-semibold">
+                    <p className="mt-1 text-xl md:text-2xl font-semibold">
                       {value}
                     </p>
                   </div>
@@ -1554,9 +1704,12 @@ export default function Home() {
                   "PostgreSQL",
                   "MySQL",
                   "Pandas",
+                  "NumPy",
+                  "Matplotlib",
                   "ETL",
                   "APIs",
                   "Git",
+                  "GitHub",
                 ].map(
                   (skill) => (
                     <span
@@ -1587,7 +1740,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* MY STORY */}
+      {/* STORY */}
       <section className="relative px-5 md:px-10 lg:px-14 py-20">
         <Reveal className="max-w-7xl mx-auto">
           <div className="story-shell">
@@ -1621,23 +1774,18 @@ export default function Home() {
                   Python, SQL, and
                   analytics pulled me
                   toward data
-                  engineering —
-                  turning messy
-                  information into
-                  reliable pipelines
-                  and useful systems.
+                  engineering.
                 </p>
 
                 <p>
                   What I care about most
                   is building things
-                  that work end to end,
-                  not just writing code
-                  for its own sake.
-                  I&apos;m focused on
-                  growing in data
-                  engineering,
-                  analytics, and AI.
+                  that work end to end:
+                  collecting data,
+                  cleaning it, storing
+                  it correctly, and
+                  turning it into
+                  something useful.
                 </p>
               </div>
             </div>
@@ -1654,7 +1802,7 @@ export default function Home() {
 
                 <p>
                   Reliable pipelines,
-                  useful systems,
+                  useful systems, and
                   measurable outcomes.
                 </p>
               </div>
@@ -1671,7 +1819,8 @@ export default function Home() {
                 <p>
                   From raw data to
                   transformation,
-                  storage, and analysis.
+                  storage, analysis,
+                  and AI.
                 </p>
               </div>
             </div>
@@ -1749,8 +1898,8 @@ export default function Home() {
                 ],
                 [
                   "03",
-                  "Student",
-                  "MIS",
+                  "Education",
+                  "SJSU · MIS",
                 ],
                 [
                   "04",
@@ -1806,7 +1955,6 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em] leading-[0.95]">
                 Experience that
                 connects
-
                 <span className="text-zinc-600">
                   {" "}
                   operations and data.
@@ -1815,13 +1963,11 @@ export default function Home() {
             </div>
 
             <p className="experience-heading-copy">
-              Each role adds something
-              different: real-time
-              decision making,
-              operational ownership,
-              technical problem
-              solving, and clear
-              communication.
+              Real-time decision
+              making, operational
+              ownership, technical
+              problem solving, and
+              clear communication.
             </p>
           </div>
 
@@ -1841,7 +1987,9 @@ export default function Home() {
 
                 return (
                   <article
-                    key={item.role}
+                    key={
+                      item.role
+                    }
                     className={`experience-card ${
                       isOpen
                         ? "is-open"
@@ -1868,8 +2016,7 @@ export default function Home() {
                     >
                       <span className="experience-index">
                         {String(
-                          index +
-                            1
+                          index + 1
                         ).padStart(
                           2,
                           "0"
@@ -1904,9 +2051,7 @@ export default function Home() {
 
                       <span className="experience-toggle">
                         <LuChevronDown
-                          size={
-                            17
-                          }
+                          size={17}
                         />
                       </span>
                     </button>
@@ -1946,6 +2091,112 @@ export default function Home() {
         </Reveal>
       </section>
 
+      {/* EDUCATION */}
+      <section
+        id="education"
+        className="scroll-mt-28 relative px-5 md:px-10 lg:px-14 py-24"
+      >
+        <Reveal className="max-w-7xl mx-auto">
+          <div className="rounded-[28px] border border-white/10 bg-white/[0.02] overflow-hidden">
+            <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="p-8 md:p-12 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/10">
+                <p className="section-kicker">
+                  Education
+                </p>
+
+                <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-[-0.045em] leading-[0.95]">
+                  Business systems
+                  <br />
+
+                  <span className="text-zinc-600">
+                    meet engineering.
+                  </span>
+                </h2>
+
+                <p className="mt-6 max-w-lg text-sm md:text-base text-zinc-600 leading-7">
+                  Building a technical
+                  foundation across
+                  databases,
+                  programming,
+                  analytics, data
+                  engineering, and AI
+                  while studying the
+                  business side of
+                  information systems.
+                </p>
+              </div>
+
+              <div className="p-8 md:p-12 lg:p-14">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.24em] text-zinc-600">
+                      San José State
+                      University
+                    </p>
+
+                    <h3 className="mt-4 text-2xl md:text-3xl font-semibold text-zinc-100">
+                      B.S. Business
+                      Administration —
+                      Management
+                      Information
+                      Systems
+                    </h3>
+                  </div>
+
+                  <span className="text-xs text-zinc-700">
+                    SJSU
+                  </span>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mt-10">
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-700">
+                      Expected
+                      Graduation
+                    </p>
+
+                    <p className="mt-3 text-xl font-semibold text-zinc-200">
+                      2027
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-700">
+                      Technical Focus
+                    </p>
+
+                    <p className="mt-3 text-base font-medium text-zinc-300">
+                      Data Engineering ·
+                      Analytics · AI
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mt-6">
+                  {[
+                    "Databases",
+                    "Python",
+                    "SQL",
+                    "Analytics",
+                    "Information Systems",
+                    "AI",
+                  ].map(
+                    (item) => (
+                      <span
+                        key={item}
+                        className="mini-tag"
+                      >
+                        {item}
+                      </span>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* TERMINAL */}
       <section className="relative px-5 md:px-10 lg:px-14 py-24">
         <Reveal className="max-w-7xl mx-auto">
@@ -1962,6 +2213,7 @@ export default function Home() {
               <p className="mt-5 text-zinc-600 max-w-lg leading-7">
                 A quick way to explore
                 my background, skills,
+                projects, education,
                 and contact info.
               </p>
             </div>
@@ -1971,24 +2223,25 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* IN PROGRESS */}
+      {/* CURRENT BUILDS */}
       <section className="relative px-5 md:px-10 lg:px-14 py-24">
         <Reveal className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <p className="section-kicker">
-                Now
+                Current Builds
               </p>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em]">
-                In Progress
+                Engineering Upgrades
               </h2>
             </div>
 
             <p className="text-sm text-zinc-600 max-w-md leading-6">
-              Engineering upgrades
-              currently being built and
-              tested.
+              Improvements currently
+              being built on top of
+              working project
+              foundations.
             </p>
           </div>
 
@@ -1998,10 +2251,9 @@ export default function Home() {
               className="building-card group block"
             >
               <div className="flex items-center justify-between">
-                <span className="status-dot-wrap">
-                  <span className="status-dot" />
-                  in progress
-                </span>
+                <StatusBadge>
+                  Active Development
+                </StatusBadge>
 
                 <span className="text-xs text-zinc-700">
                   01
@@ -2014,10 +2266,11 @@ export default function Home() {
               </h3>
 
               <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Building the SQL-first
-                agent layer that answers
-                questions from verified
-                query results.
+                Building a SQL-first,
+                read-only analytics
+                layer that answers
+                questions using
+                verified query results.
               </p>
 
               <div className="flex flex-wrap gap-2 mt-6">
@@ -2054,10 +2307,9 @@ export default function Home() {
               className="building-card group block"
             >
               <div className="flex items-center justify-between">
-                <span className="status-dot-wrap">
-                  <span className="status-dot" />
-                  in progress
-                </span>
+                <StatusBadge>
+                  Reliability Upgrade
+                </StatusBadge>
 
                 <span className="text-xs text-zinc-700">
                   02
@@ -2070,11 +2322,13 @@ export default function Home() {
               </h3>
 
               <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Adding orchestration,
+                Expanding a working
+                API-to-MySQL pipeline
+                toward orchestration,
                 data-quality checks,
-                containerization, and a
-                more repeatable
-                workflow.
+                containerization, and
+                repeatable scheduled
+                execution.
               </p>
 
               <div className="flex flex-wrap gap-2 mt-6">
@@ -2127,51 +2381,12 @@ export default function Home() {
             <p className="mt-4 text-zinc-600">
               Projects,
               certifications, and the
-              tools behind my work.
+              technical stack behind
+              my work.
             </p>
           </div>
 
-          <div className="portfolio-intro-grid mt-10">
-            <div className="portfolio-intro-card">
-              <span className="portfolio-intro-index">
-                01
-              </span>
-
-              <div>
-                <p className="portfolio-intro-label">
-                  PROJECT SYSTEMS
-                </p>
-
-                <p className="portfolio-intro-copy">
-                  Pipelines, analytics,
-                  and AI workflows built
-                  to be useful and
-                  verifiable.
-                </p>
-              </div>
-            </div>
-
-            <div className="portfolio-intro-card">
-              <span className="portfolio-intro-index">
-                02
-              </span>
-
-              <div>
-                <p className="portfolio-intro-label">
-                  TECHNICAL STACK
-                </p>
-
-                <p className="portfolio-intro-copy">
-                  Python, SQL,
-                  databases, ETL, APIs,
-                  and tooling behind the
-                  work.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 border border-white/10 rounded-2xl p-2 grid grid-cols-3 bg-white/[0.03] backdrop-blur-xl">
+          <div className="mt-10 border border-white/10 rounded-2xl p-2 grid grid-cols-3 bg-white/[0.03] backdrop-blur-xl">
             {[
               [
                 "projects",
@@ -2216,88 +2431,175 @@ export default function Home() {
           {/* PROJECTS */}
           {activeTab ===
             "projects" && (
-            <div className="grid lg:grid-cols-3 gap-5 mt-10">
-              <a
-                href="/projects/music-insights-agent"
-                className="project-card group block project-card-pro"
-              >
-                <div className="project-image">
-                  <span>
-                    01
-                  </span>
-                </div>
+            <div className="mt-10 space-y-5">
+              {/* FEATURED MUSIC PROJECT */}
+              <div className="project-card overflow-hidden">
+                <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="p-7 md:p-10 lg:p-12">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.28em] text-zinc-600">
+                        Featured Project
+                      </span>
 
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold">
-                    Music Insights
-                    Agent
-                  </h3>
+                      <StatusBadge>
+                        Active Development
+                      </StatusBadge>
+                    </div>
 
-                  <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    End-to-end music
-                    analytics pipeline
-                    that transforms
-                    listening history
-                    into structured data
-                    and verified
-                    insights.
-                  </p>
+                    <h3 className="mt-6 text-3xl md:text-5xl font-bold tracking-[-0.04em]">
+                      Music Insights
+                      Agent
+                    </h3>
 
-                  <div className="project-metric-row">
-                    <span>
-                      <strong>
-                        278K+
-                      </strong>{" "}
-                      source rows
-                    </span>
+                    <p className="mt-5 max-w-xl text-sm md:text-base leading-7 text-zinc-500">
+                      End-to-end Apple
+                      Music analytics
+                      system that
+                      processes large
+                      listening exports,
+                      structures playback
+                      data, prepares it
+                      for PostgreSQL and
+                      SQL analysis, and
+                      is being extended
+                      with a verified
+                      analytics agent.
+                    </p>
 
-                    <span>
-                      <strong>
-                        172K+
-                      </strong>{" "}
-                      play events
-                    </span>
+                    <div className="flex flex-wrap gap-2 mt-6">
+                      {[
+                        "Python",
+                        "Pandas",
+                        "ETL",
+                        "PostgreSQL",
+                        "SQL",
+                        "AI",
+                      ].map(
+                        (item) => (
+                          <span
+                            key={item}
+                            className="mini-tag"
+                          >
+                            {item}
+                          </span>
+                        )
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-3 mt-8">
+                      <a
+                        href="/projects/music-insights-agent"
+                        className="premium-button"
+                      >
+                        View Case Study
+                      </a>
+
+                      <a
+                        href="https://github.com/Mohamed254-pixel/music-insights-agent"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ghost-button"
+                      >
+                        <LuGithub
+                          size={14}
+                        />
+                        Source Code ↗
+                      </a>
+                    </div>
                   </div>
 
-                  <p className="text-xs text-zinc-700 mt-5">
-                    Python · PostgreSQL
-                    · SQL · ETL · AI
-                  </p>
+                  <div className="border-t lg:border-t-0 lg:border-l border-white/10 bg-white/[0.018] p-7 md:p-10">
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-700">
+                      Project Scale
+                    </p>
 
-                  <div className="mt-6 flex justify-between items-center">
+                    <div className="grid grid-cols-2 gap-3 mt-6">
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                        <p className="text-2xl font-semibold">
+                          278K+
+                        </p>
+
+                        <p className="text-xs text-zinc-600 mt-2">
+                          source rows
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                        <p className="text-2xl font-semibold">
+                          172K+
+                        </p>
+
+                        <p className="text-xs text-zinc-600 mt-2">
+                          PLAY_END events
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                        <p className="text-lg font-semibold">
+                          ETL
+                        </p>
+
+                        <p className="text-xs text-zinc-600 mt-2">
+                          pipeline design
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                        <p className="text-lg font-semibold">
+                          SQL
+                        </p>
+
+                        <p className="text-xs text-zinc-600 mt-2">
+                          verified analytics
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-700">
+                        Architecture
+                      </p>
+
+                      <p className="mt-3 text-sm leading-7 text-zinc-400">
+                        Apple Music CSV
+                        → Python → Pandas
+                        → PostgreSQL →
+                        SQL → Analytics
+                        Agent
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SECONDARY PROJECTS */}
+              <div className="grid md:grid-cols-2 gap-5">
+                <div className="project-card project-card-pro p-7">
+                  <div className="flex items-center justify-between gap-4">
                     <span className="text-xs text-zinc-700">
-                      Data Project
+                      02
                     </span>
 
-                    <span className="text-sm text-zinc-400">
-                      Details →
-                    </span>
+                    <StatusBadge>
+                      Production-style
+                      Project
+                    </StatusBadge>
                   </div>
-                </div>
-              </a>
 
-              <a
-                href="/projects/soccer-data-pipeline"
-                className="project-card group block project-card-pro"
-              >
-                <div className="project-image">
-                  <span>
-                    02
-                  </span>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold">
-                    Soccer Data Pipeline
+                  <h3 className="text-2xl font-semibold mt-7">
+                    Soccer Data
+                    Pipeline
                   </h3>
 
                   <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    Automated soccer
-                    data pipeline using
-                    API data,
-                    transformations,
-                    database storage,
-                    and UPSERT logic.
+                    API-to-database
+                    pipeline using
+                    Python, Pandas,
+                    MySQL, primary-key
+                    design, and UPSERT
+                    logic for
+                    duplicate-safe
+                    loading.
                   </p>
 
                   <div className="project-metric-row">
@@ -2318,42 +2620,52 @@ export default function Home() {
 
                   <p className="text-xs text-zinc-700 mt-5">
                     Python · Pandas ·
-                    MySQL · API
+                    MySQL · API · ETL
                   </p>
 
-                  <div className="mt-6 flex justify-between items-center">
-                    <span className="text-xs text-zinc-700">
-                      Data Engineering
-                    </span>
+                  <div className="flex flex-wrap gap-3 mt-7">
+                    <a
+                      href="/projects/soccer-data-pipeline"
+                      className="ghost-button"
+                    >
+                      Case Study →
+                    </a>
 
-                    <span className="text-sm text-zinc-400">
-                      Details →
-                    </span>
+                    <a
+                      href="https://github.com/Mohamed254-pixel/soccer-data-pipeline"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ghost-button"
+                    >
+                      GitHub ↗
+                    </a>
                   </div>
                 </div>
-              </a>
 
-              <a
-                href="/projects/customer-segmentation"
-                className="project-card group block project-card-pro"
-              >
-                <div className="project-image">
-                  <span>
-                    03
-                  </span>
-                </div>
+                <div className="project-card project-card-pro p-7">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-xs text-zinc-700">
+                      03
+                    </span>
 
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold">
-                    Customer Segmentation
+                    <StatusBadge>
+                      Completed
+                    </StatusBadge>
+                  </div>
+
+                  <h3 className="text-2xl font-semibold mt-7">
+                    Customer
+                    Segmentation
                   </h3>
 
                   <p className="text-zinc-600 mt-3 text-sm leading-6">
                     Customer analytics
                     project using
-                    clustering to
-                    identify meaningful
-                    customer groups.
+                    K-Means clustering
+                    to organize customer
+                    records into
+                    interpretable
+                    segments.
                   </p>
 
                   <div className="project-metric-row">
@@ -2374,20 +2686,29 @@ export default function Home() {
 
                   <p className="text-xs text-zinc-700 mt-5">
                     Python · Pandas ·
-                    K-Means · Analytics
+                    K-Means ·
+                    Matplotlib
                   </p>
 
-                  <div className="mt-6 flex justify-between items-center">
-                    <span className="text-xs text-zinc-700">
-                      Machine Learning
-                    </span>
+                  <div className="flex flex-wrap gap-3 mt-7">
+                    <a
+                      href="/projects/customer-segmentation"
+                      className="ghost-button"
+                    >
+                      Case Study →
+                    </a>
 
-                    <span className="text-sm text-zinc-400">
-                      Details →
-                    </span>
+                    <a
+                      href="https://github.com/Mohamed254-pixel/customer-segmentation"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ghost-button"
+                    >
+                      GitHub ↗
+                    </a>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           )}
 
@@ -2577,8 +2898,8 @@ export default function Home() {
                 projects,
                 collaborations, and
                 conversations around
-                analytics, engineering,
-                and AI.
+                analytics,
+                engineering, and AI.
               </p>
 
               <div className="contact-availability">
@@ -2920,6 +3241,7 @@ export default function Home() {
                         <LuCheck
                           size={14}
                         />
+
                         Sent
                       </>
                     ) : (
@@ -2927,6 +3249,7 @@ export default function Home() {
                         <LuSend
                           size={14}
                         />
+
                         Send Message
                       </>
                     )}
