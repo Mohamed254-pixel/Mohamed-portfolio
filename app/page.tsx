@@ -215,10 +215,7 @@ function CommandPalette({
     useState("");
 
   useEffect(() => {
-    if (!open) {
-      setQuery("");
-      return;
-    }
+    if (!open) return;
 
     const previousOverflow =
       document.body.style.overflow;
@@ -308,6 +305,11 @@ function CommandPalette({
         )
     );
 
+  function handleClose() {
+    setQuery("");
+    onClose();
+  }
+
   if (!open) return null;
 
   function handleAction(
@@ -334,7 +336,7 @@ function CommandPalette({
         action.href;
     }
 
-    onClose();
+    handleClose();
   }
 
   return (
@@ -348,7 +350,7 @@ function CommandPalette({
           event.target ===
           event.currentTarget
         ) {
-          onClose();
+          handleClose();
         }
       }}
     >
@@ -374,7 +376,7 @@ function CommandPalette({
                 event.key ===
                 "Escape"
               ) {
-                onClose();
+                handleClose();
               }
 
               if (
@@ -393,7 +395,7 @@ function CommandPalette({
 
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="command-key hover:text-white transition-colors"
             aria-label="Close quick navigation"
           >
@@ -2441,49 +2443,34 @@ export default function Home() {
                         Featured Project
                       </span>
 
-                      <StatusBadge>
-                        Active Development
-                      </StatusBadge>
+                      <StatusBadge>Active Development</StatusBadge>
                     </div>
 
                     <h3 className="mt-6 text-3xl md:text-5xl font-bold tracking-[-0.04em]">
-                      Music Insights
-                      Agent
+                      Music Insights Agent
                     </h3>
 
                     <p className="mt-5 max-w-xl text-sm md:text-base leading-7 text-zinc-500">
-                      End-to-end Apple
-                      Music analytics
-                      system that
-                      processes large
-                      listening exports,
-                      structures playback
-                      data, prepares it
-                      for PostgreSQL and
-                      SQL analysis, and
-                      is being extended
-                      with a verified
-                      analytics agent.
+                      I built this pipeline to turn my Apple Music listening
+                      history into data I could actually query. It cleans the
+                      export with Python and Pandas, stores 172,899 events in
+                      PostgreSQL running through Docker, and uses four SQL views
+                      for repeatable analysis.
                     </p>
 
                     <div className="flex flex-wrap gap-2 mt-6">
                       {[
                         "Python",
                         "Pandas",
-                        "ETL",
+                        "Docker",
                         "PostgreSQL",
                         "SQL",
-                        "AI",
-                      ].map(
-                        (item) => (
-                          <span
-                            key={item}
-                            className="mini-tag"
-                          >
-                            {item}
-                          </span>
-                        )
-                      )}
+                        "ETL",
+                      ].map((item) => (
+                        <span key={item} className="mini-tag">
+                          {item}
+                        </span>
+                      ))}
                     </div>
 
                     <div className="flex flex-wrap gap-3 mt-8">
@@ -2500,9 +2487,7 @@ export default function Home() {
                         rel="noreferrer"
                         className="ghost-button"
                       >
-                        <LuGithub
-                          size={14}
-                        />
+                        <LuGithub size={14} />
                         Source Code ↗
                       </a>
                     </div>
@@ -2510,47 +2495,37 @@ export default function Home() {
 
                   <div className="border-t lg:border-t-0 lg:border-l border-white/10 bg-white/[0.018] p-7 md:p-10">
                     <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-700">
-                      Project Scale
+                      Project Results
                     </p>
 
                     <div className="grid grid-cols-2 gap-3 mt-6">
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">
-                          278K+
-                        </p>
+                        <p className="text-2xl font-semibold">278,231</p>
+
+                        <p className="text-xs text-zinc-600 mt-2">source rows</p>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                        <p className="text-2xl font-semibold">172,899</p>
 
                         <p className="text-xs text-zinc-600 mt-2">
-                          source rows
+                          database events
                         </p>
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">
-                          172K+
-                        </p>
+                        <p className="text-2xl font-semibold">160,417</p>
 
                         <p className="text-xs text-zinc-600 mt-2">
-                          PLAY_END events
+                          listening events
                         </p>
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-lg font-semibold">
-                          ETL
-                        </p>
+                        <p className="text-2xl font-semibold">4</p>
 
                         <p className="text-xs text-zinc-600 mt-2">
-                          pipeline design
-                        </p>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-lg font-semibold">
-                          SQL
-                        </p>
-
-                        <p className="text-xs text-zinc-600 mt-2">
-                          verified analytics
+                          SQL analytics views
                         </p>
                       </div>
                     </div>
@@ -2561,11 +2536,8 @@ export default function Home() {
                       </p>
 
                       <p className="mt-3 text-sm leading-7 text-zinc-400">
-                        Apple Music CSV
-                        → Python → Pandas
-                        → PostgreSQL →
-                        SQL → Analytics
-                        Agent
+                        Apple Music Export → Python and Pandas → Parquet →
+                        Dockerized PostgreSQL → SQL Views → Analytics Agent
                       </p>
                     </div>
                   </div>
