@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const workflow = [
   { label: "Source", value: "Customer Data" },
   { label: "Processing", value: "Python" },
@@ -32,12 +34,12 @@ export default function CustomerSegmentationProject() {
       <div className="fixed inset-0 pointer-events-none grid-background" />
 
       <div className="relative max-w-6xl mx-auto">
-        <a
+        <Link
           href="/#portfolio"
           className="text-sm text-zinc-500 hover:text-white transition"
         >
           ← Back to Portfolio
-        </a>
+        </Link>
 
         {/* HERO */}
         <section className="pt-16 pb-14">
@@ -411,12 +413,12 @@ export default function CustomerSegmentationProject() {
               View GitHub ↗
             </a>
 
-            <a
+            <Link
               href="/#portfolio"
               className="border border-white/10 px-5 py-3 rounded-lg text-sm text-zinc-400 hover:text-white"
             >
               More Projects
-            </a>
+            </Link>
           </div>
         </section>
       </div>
