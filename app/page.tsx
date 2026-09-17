@@ -2310,7 +2310,7 @@ export default function Home() {
             >
               <div className="flex items-center justify-between">
                 <StatusBadge>
-                  Reliability Upgrade
+                  Upgrade Completed
                 </StatusBadge>
 
                 <span className="text-xs text-zinc-700">
@@ -2319,25 +2319,26 @@ export default function Home() {
               </div>
 
               <h3 className="text-2xl font-semibold mt-8">
-                Pipeline Reliability
-                Upgrade
+                Docker + Airflow
+                Pipeline
               </h3>
 
               <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Expanding a working
-                API-to-MySQL pipeline
-                toward orchestration,
-                data-quality checks,
-                containerization, and
-                repeatable scheduled
-                execution.
+                Upgraded the Premier
+                League pipeline with
+                Docker and Apache
+                Airflow. Four ordered
+                tasks use dependencies,
+                retries, logs, failure
+                tracking, and shared
+                Docker storage.
               </p>
 
               <div className="flex flex-wrap gap-2 mt-6">
                 {[
-                  "Orchestration",
-                  "Data Quality",
+                  "Apache Airflow",
                   "Docker",
+                  "MySQL",
                   "ETL",
                 ].map(
                   (item) => (
@@ -2553,8 +2554,7 @@ export default function Home() {
                     </span>
 
                     <StatusBadge>
-                      Production-style
-                      Project
+                      Upgrade Completed
                     </StatusBadge>
                   </div>
 
@@ -2564,14 +2564,17 @@ export default function Home() {
                   </h3>
 
                   <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    API-to-database
-                    pipeline using
-                    Python, Pandas,
-                    MySQL, primary-key
-                    design, and UPSERT
-                    logic for
+                    Dockerized Premier
+                    League ETL pipeline
+                    orchestrated with
+                    Apache Airflow. Four
+                    ordered tasks extract
+                    and load match, team,
+                    and venue data into
+                    MySQL with retries,
+                    logging, and
                     duplicate-safe
-                    loading.
+                    UPSERT logic.
                   </p>
 
                   <div className="project-metric-row">
@@ -2584,15 +2587,16 @@ export default function Home() {
 
                     <span>
                       <strong>
-                        0
+                        4
                       </strong>{" "}
-                      duplicates
+                      Airflow tasks
                     </span>
                   </div>
 
                   <p className="text-xs text-zinc-700 mt-5">
                     Python · Pandas ·
-                    MySQL · API · ETL
+                    MySQL · Docker ·
+                    Apache Airflow
                   </p>
 
                   <div className="flex flex-wrap gap-3 mt-7">
@@ -3294,3 +3298,4 @@ export default function Home() {
     </main>
   );
 }
+
