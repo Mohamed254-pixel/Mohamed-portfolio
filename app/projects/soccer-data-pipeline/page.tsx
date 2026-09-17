@@ -123,6 +123,103 @@ export default function SoccerDataPipelineProject() {
 
         {/* PROJECT VISUAL */}
         <section className="pb-20">
+          <div className="mb-6 overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-6 md:p-8 lg:p-10">
+            <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+              <div>
+                <p className="mb-5 text-[10px] uppercase tracking-[0.24em] text-zinc-600">
+                  Project Visual
+                </p>
+
+                <div className="rounded-3xl border border-white/10 bg-[#0b0f0b] p-5 md:p-6">
+                  <div className="relative mx-auto h-[280px] max-w-3xl overflow-hidden rounded-[28px] border border-white/10 bg-[#101610]">
+                    {/* Field outline */}
+                    <div className="absolute inset-6 rounded-[22px] border border-white/15" />
+
+                    {/* Center line */}
+                    <div className="absolute bottom-6 left-1/2 top-6 w-px -translate-x-1/2 bg-white/15" />
+
+                    {/* Center circle */}
+                    <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15" />
+
+                    {/* Center point */}
+                    <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/30" />
+
+                    {/* Penalty areas */}
+                    <div className="absolute bottom-[30%] left-6 top-[30%] w-16 border border-l-0 border-white/15" />
+                    <div className="absolute bottom-[30%] right-6 top-[30%] w-16 border border-r-0 border-white/15" />
+
+                    {/* Data points */}
+                    <div className="absolute left-[18%] top-[28%] h-3 w-3 rounded-full bg-white/80" />
+                    <div className="absolute left-[27%] top-[42%] h-3 w-3 rounded-full bg-white/55" />
+                    <div className="absolute left-[34%] top-[68%] h-3 w-3 rounded-full bg-white/70" />
+                    <div className="absolute right-[18%] top-[30%] h-3 w-3 rounded-full bg-white/65" />
+                    <div className="absolute right-[28%] top-[55%] h-3 w-3 rounded-full bg-white/85" />
+                    <div className="absolute right-[38%] top-[72%] h-3 w-3 rounded-full bg-white/50" />
+
+                    {/* Labels */}
+                    <div className="absolute left-10 top-10 rounded-xl border border-white/10 bg-black/40 px-3 py-2">
+                      <p className="text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                        Source
+                      </p>
+
+                      <p className="mt-1 text-xs text-zinc-300">
+                        API-Football
+                      </p>
+                    </div>
+
+                    <div className="absolute bottom-10 right-10 rounded-xl border border-white/10 bg-black/40 px-3 py-2">
+                      <p className="text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                        Output
+                      </p>
+
+                      <p className="mt-1 text-xs text-zinc-300">
+                        MySQL
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-600">
+                  What the project covers
+                </p>
+
+                <h2 className="mt-5 text-3xl font-bold">
+                  Premier League data from API to database.
+                </h2>
+
+                <p className="mt-5 text-sm leading-7 text-zinc-500">
+                  The field represents the Premier League data moving through
+                  the pipeline. Apache Airflow coordinates the extraction and
+                  loading tasks while Docker provides the shared environment.
+                </p>
+
+                <div className="mt-7 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-2xl font-semibold">380</p>
+                    <p className="mt-1 text-xs text-zinc-600">Matches</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-2xl font-semibold">4</p>
+                    <p className="mt-1 text-xs text-zinc-600">Airflow tasks</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-2xl font-semibold">20</p>
+                    <p className="mt-1 text-xs text-zinc-600">Teams</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-2xl font-semibold">20</p>
+                    <p className="mt-1 text-xs text-zinc-600">Venues</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
             <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
               <div className="border-b border-white/10 p-6 md:p-8 lg:border-b-0 lg:border-r lg:p-10">
