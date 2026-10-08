@@ -48,11 +48,17 @@ const airflowTasks = [
     description:
       "Loads the 380 match records into MySQL using primary keys and UPSERT logic.",
   },
+  {
+    number: "05",
+    name: "Validate Data Quality",
+    description:
+      "Runs nine MySQL validation checks and fails the workflow when the final data does not meet the expected quality rules.",
+  },
 ];
 
 export default function SoccerDataPipelineProject() {
   return (
-    <main className="min-h-screen bg-[#080808] text-white px-5 py-8 md:px-10 lg:px-14">
+    <main className="min-h-screen bg-[#080808] px-5 py-8 text-white md:px-10 lg:px-14">
       <div className="pointer-events-none fixed inset-0 grid-background" />
 
       <div className="relative mx-auto max-w-6xl">
@@ -83,11 +89,10 @@ export default function SoccerDataPipelineProject() {
           </h1>
 
           <p className="mt-7 max-w-3xl leading-7 text-zinc-500">
-            A Dockerized data engineering pipeline that uses Apache
-            Airflow to extract Premier League match, team, and venue data
-            from API-Football, transform the records with Python and
-            Pandas, and load them into MySQL using duplicate-safe UPSERT
-            logic.
+            A Dockerized data engineering pipeline that uses Apache Airflow
+            to extract Premier League match, team, and venue data from
+            API-Football, transform the records with Python and Pandas, and
+            load them into MySQL using duplicate-safe UPSERT logic.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -172,9 +177,7 @@ export default function SoccerDataPipelineProject() {
                         Output
                       </p>
 
-                      <p className="mt-1 text-xs text-zinc-300">
-                        MySQL
-                      </p>
+                      <p className="mt-1 text-xs text-zinc-300">MySQL</p>
                     </div>
                   </div>
                 </div>
@@ -190,9 +193,10 @@ export default function SoccerDataPipelineProject() {
                 </h2>
 
                 <p className="mt-5 text-sm leading-7 text-zinc-500">
-                  The field represents the Premier League data moving through
-                  the pipeline. Apache Airflow coordinates the extraction and
-                  loading tasks while Docker provides the shared environment.
+                  The field represents Premier League data moving through
+                  the pipeline. Apache Airflow coordinates the extraction,
+                  loading, and validation tasks while Docker provides the
+                  shared environment.
                 </p>
 
                 <div className="mt-7 grid grid-cols-2 gap-3">
@@ -202,8 +206,10 @@ export default function SoccerDataPipelineProject() {
                   </div>
 
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                    <p className="text-2xl font-semibold">4</p>
-                    <p className="mt-1 text-xs text-zinc-600">Airflow tasks</p>
+                    <p className="text-2xl font-semibold">5</p>
+                    <p className="mt-1 text-xs text-zinc-600">
+                      Airflow tasks
+                    </p>
                   </div>
 
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
@@ -293,10 +299,22 @@ export default function SoccerDataPipelineProject() {
                       Orchestration
                     </p>
 
-                    <p className="mt-3 text-3xl font-semibold">4 tasks</p>
+                    <p className="mt-3 text-3xl font-semibold">5 tasks</p>
 
                     <p className="mt-2 text-sm text-zinc-500">
                       Ordered Airflow ETL workflow
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-700">
+                      Data Quality
+                    </p>
+
+                    <p className="mt-3 text-3xl font-semibold">9 checks</p>
+
+                    <p className="mt-2 text-sm text-zinc-500">
+                      Automated MySQL validation checks
                     </p>
                   </div>
                 </div>
@@ -311,7 +329,7 @@ export default function SoccerDataPipelineProject() {
             ["01", "Matches", "380"],
             ["02", "Teams", "20"],
             ["03", "Venues", "20"],
-            ["04", "Airflow Tasks", "4"],
+            ["04", "Airflow Tasks", "5"],
           ].map(([number, label, value]) => (
             <div key={label} className="info-card">
               <span className="text-xs text-zinc-600">{number}</span>
@@ -349,7 +367,7 @@ export default function SoccerDataPipelineProject() {
             </p>
 
             <p>
-              Apache Airflow runs the workflow as four ordered tasks with
+              Apache Airflow runs the workflow as five ordered tasks with
               dependencies, retries, logs, and failure tracking.
             </p>
 
@@ -368,7 +386,7 @@ export default function SoccerDataPipelineProject() {
           </p>
 
           <h2 className="mb-10 text-4xl font-bold">
-            Four ordered ETL tasks
+            Five ordered ETL tasks
           </h2>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -385,9 +403,7 @@ export default function SoccerDataPipelineProject() {
                   <span className="h-2 w-2 rounded-full bg-zinc-500" />
                 </div>
 
-                <h3 className="mt-5 text-xl font-semibold">
-                  {task.name}
-                </h3>
+                <h3 className="mt-5 text-xl font-semibold">{task.name}</h3>
 
                 <p className="mt-4 text-sm leading-6 text-zinc-500">
                   {task.description}
@@ -464,15 +480,15 @@ export default function SoccerDataPipelineProject() {
               ],
               [
                 "Approach",
-                "Dockerize the project and split the ETL workflow into four ordered Apache Airflow tasks for extraction and MySQL loading.",
+                "Dockerize the project and split the workflow into five ordered Apache Airflow tasks for extraction, MySQL loading, and data-quality validation.",
               ],
               [
                 "Key Decisions",
-                "Use task dependencies, retries, logs, shared Docker storage, primary keys, and UPSERT logic to make repeated runs more reliable.",
+                "Use task dependencies, retries, logs, shared Docker storage, primary keys, UPSERT logic, and automated validation to make repeated runs more reliable.",
               ],
               [
                 "Outcome",
-                "The complete Airflow DAG ran successfully and loaded 380 matches, 20 teams, and 20 venues into MySQL without duplicate records.",
+                "The complete five-task Airflow DAG ran successfully, loaded 380 matches, 20 teams, and 20 venues into MySQL, and passed all nine automated data-quality checks.",
               ],
             ].map(([title, text]) => (
               <article
@@ -501,7 +517,9 @@ export default function SoccerDataPipelineProject() {
             {[
               "Dockerized ETL environment",
               "Apache Airflow orchestration",
-              "Four ordered ETL tasks",
+              "Five ordered ETL tasks",
+              "Nine automated MySQL data-quality checks",
+              "Workflow failure when validation rules do not pass",
               "Task dependencies and retries",
               "Task logs and failure tracking",
               "Shared Docker data volume",
@@ -535,11 +553,11 @@ export default function SoccerDataPipelineProject() {
             </h2>
 
             <p className="mt-4 max-w-3xl leading-7 text-zinc-500">
-              The full four-task Airflow DAG ran successfully inside
-              Docker and loaded 380 matches, 20 teams, and 20 venues into
-              MySQL. The pipeline includes dependencies, retries, logs,
-              failure tracking, shared storage, validation, and
-              duplicate-safe loading.
+              The full five-task Airflow DAG ran successfully inside Docker
+              and loaded 380 matches, 20 teams, and 20 venues into MySQL.
+              The final validation task passed all nine checks, including
+              row counts, duplicate IDs, missing values, negative scores,
+              and broken team-to-venue relationships.
             </p>
           </div>
         </section>
@@ -552,14 +570,14 @@ export default function SoccerDataPipelineProject() {
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-7 md:p-9">
             <h2 className="text-3xl font-bold">
-              Documentation and monitoring
+              Scheduling, testing, and cloud deployment
             </h2>
 
             <p className="mt-4 max-w-3xl leading-7 text-zinc-500">
-              The next phase is updating the README with Docker and
-              Airflow setup instructions, adding an Airflow screenshot,
-              enabling automatic scheduling, adding a separate
-              data-quality task, and building a reporting dashboard.
+              The next phase is adding a weekly Airflow schedule, automated
+              tests and GitHub Actions, pipeline freshness monitoring, and a
+              Power BI dashboard. Later upgrades can move storage to AWS S3
+              and the database to Amazon RDS.
             </p>
           </div>
         </section>
