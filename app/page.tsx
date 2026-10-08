@@ -141,40 +141,29 @@ function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const ref =
-    useRef<HTMLDivElement | null>(
-      null
-    );
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const node = ref.current;
 
     if (!node) return;
 
-    const observer =
-      new IntersectionObserver(
-        ([entry]) => {
-          if (
-            entry.isIntersecting
-          ) {
-            node.classList.add(
-              "is-visible"
-            );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          node.classList.add("is-visible");
 
-            observer.unobserve(
-              node
-            );
-          }
-        },
-        {
-          threshold: 0.14,
+          observer.unobserve(node);
         }
-      );
+      },
+      {
+        threshold: 0.14,
+      }
+    );
 
     observer.observe(node);
 
-    return () =>
-      observer.disconnect();
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -211,23 +200,19 @@ function CommandPalette({
   open: boolean;
   onClose: () => void;
 }) {
-  const [query, setQuery] =
-    useState("");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (!open) return;
 
-    const previousOverflow =
-      document.body.style.overflow;
+    const previousOverflow = document.body.style.overflow;
 
-    document.body.style.overflow =
-      "hidden";
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow =
-        previousOverflow;
+      document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [open ]);
 
   const actions = [
     {
@@ -296,14 +281,11 @@ function CommandPalette({
     },
   ];
 
-  const filtered =
-    actions.filter((action) =>
-      `${action.label} ${action.hint}`
-        .toLowerCase()
-        .includes(
-          query.toLowerCase()
-        )
-    );
+  const filtered = actions.filter((action) =>
+    `${action.label} ${action.hint}`
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
 
   function handleClose() {
     setQuery("");
@@ -321,19 +303,14 @@ function CommandPalette({
         "_blank",
         "noopener,noreferrer"
       );
-    } else if (
-      action.href.startsWith("#")
-    ) {
+    } else if (action.href.startsWith("#")) {
       document
-        .querySelector(
-          action.href
-        )
+        .querySelector(action.href)
         ?.scrollIntoView({
           behavior: "smooth",
         });
     } else {
-      window.location.href =
-        action.href;
+      window.location.href = action.href;
     }
 
     handleClose();
@@ -346,10 +323,7 @@ function CommandPalette({
       aria-modal="true"
       aria-label="Quick navigation"
       onMouseDown={(event) => {
-        if (
-          event.target ===
-          event.currentTarget
-        ) {
+        if (event.target === event.currentTarget) {
           handleClose();
         }
       }}
@@ -365,28 +339,18 @@ function CommandPalette({
             autoFocus
             value={query}
             onChange={(event) =>
-              setQuery(
-                event.target.value
-              )
+              setQuery(event.target.value)
             }
-            onKeyDown={(
-              event
-            ) => {
-              if (
-                event.key ===
-                "Escape"
-              ) {
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
                 handleClose();
               }
 
               if (
-                event.key ===
-                  "Enter" &&
+                event.key === "Enter" &&
                 filtered[0]
               ) {
-                handleAction(
-                  filtered[0]
-                );
+                handleAction(filtered[0]);
               }
             }}
             placeholder="Search navigation..."
@@ -405,58 +369,46 @@ function CommandPalette({
 
         <div className="command-list">
           {filtered.length > 0 ? (
-            filtered.map(
-              (action) => {
-                const Icon =
-                  action.icon;
+            filtered.map((action) => {
+              const Icon = action.icon;
 
-                return (
-                  <button
-                    key={
-                      action.label
-                    }
-                    type="button"
-                    className="command-item"
-                    onClick={() =>
-                      handleAction(
-                        action
-                      )
-                    }
-                  >
-                    <span className="command-item-left">
-                      <span className="command-icon">
-                        <Icon
-                          className="h-4 w-4"
-                          aria-hidden="true"
-                        />
-                      </span>
-
-                      <span>
-                        <span className="command-label">
-                          {
-                            action.label
-                          }
-                        </span>
-
-                        <span className="command-hint">
-                          {
-                            action.hint
-                          }
-                        </span>
-                      </span>
+              return (
+                <button
+                  key={action.label}
+                  type="button"
+                  className="command-item"
+                  onClick={() =>
+                    handleAction(action)
+                  }
+                >
+                  <span className="command-item-left">
+                    <span className="command-icon">
+                      <Icon
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                      />
                     </span>
 
-                    <span className="text-zinc-700">
-                      ↗
+                    <span>
+                      <span className="command-label">
+                        {action.label}
+                      </span>
+
+                      <span className="command-hint">
+                        {action.hint}
+                      </span>
                     </span>
-                  </button>
-                );
-              }
-            )
+                  </span>
+
+                  <span className="text-zinc-700">
+                    ↗
+                  </span>
+                </button>
+              );
+            })
           ) : (
             <div className="command-empty">
-              No matching
-              actions.
+              No matching actions.
             </div>
           )}
         </div>
@@ -464,9 +416,7 @@ function CommandPalette({
         <div className="command-footer">
           <span>↵ open</span>
           <span>esc close</span>
-          <span>
-            ⌘K reopen anytime
-          </span>
+          <span>⌘K reopen anytime</span>
         </div>
       </div>
     </div>
@@ -474,31 +424,25 @@ function CommandPalette({
 }
 
 function TerminalCard() {
-  const [command, setCommand] =
-    useState("");
+  const [command, setCommand] = useState("");
 
-  const [history, setHistory] =
-    useState<
-      {
-        cmd: string;
-        out: string;
-      }[]
-    >([
-      {
-        cmd: "help",
-        out: "Try a command or tap one below.",
-      },
-    ]);
+  const [history, setHistory] = useState<
+    {
+      cmd: string;
+      out: string;
+    }[]
+  >([
+    {
+      cmd: "help",
+      out: "Try a command or tap one below.",
+    },
+  ]);
 
-  const [
-    commandHistory,
-    setCommandHistory,
-  ] = useState<string[]>([]);
+  const [commandHistory, setCommandHistory] =
+    useState<string[]>([]);
 
-  const [
-    historyIndex,
-    setHistoryIndex,
-  ] = useState(-1);
+  const [historyIndex, setHistoryIndex] =
+    useState(-1);
 
   const suggestions = [
     "whoami",
@@ -510,10 +454,7 @@ function TerminalCard() {
     "contact",
   ];
 
-  const responses: Record<
-    string,
-    string
-  > = {
+  const responses: Record<string, string> = {
     whoami:
       "Mohamed Ibrahim — MIS student focused on data engineering, analytics, and AI.",
 
@@ -526,14 +467,11 @@ function TerminalCard() {
     education:
       "San José State University · B.S. Business Administration — Management Information Systems · Expected 2027.",
 
-    projects:
-      "Opening the portfolio showcase...",
+    projects: "Opening the portfolio showcase...",
 
-    resume:
-      "Opening resume...",
+    resume: "Opening resume...",
 
-    github:
-      "Opening GitHub profile...",
+    github: "Opening GitHub profile...",
 
     contact:
       "Email: mohamedibrahim.sjsu@gmail.com · Phone: 408-618-9877",
@@ -542,24 +480,15 @@ function TerminalCard() {
       "Commands: whoami, skills, focus, education, projects, resume, github, contact, clear",
   };
 
-  function executeCommand(
-    rawValue: string
-  ) {
-    const value = rawValue
-      .trim()
-      .toLowerCase();
+  function executeCommand(rawValue: string) {
+    const value = rawValue.trim().toLowerCase();
 
     if (!value) return;
 
-    setCommandHistory(
-      (prev) => [
-        ...prev.filter(
-          (item) =>
-            item !== value
-        ),
-        value,
-      ]
-    );
+    setCommandHistory((prev) => [
+      ...prev.filter((item) => item !== value),
+      value,
+    ]);
 
     setHistoryIndex(-1);
 
@@ -582,33 +511,23 @@ function TerminalCard() {
     setCommand("");
 
     window.setTimeout(() => {
-      if (
-        value === "projects"
-      ) {
+      if (value === "projects") {
         document
-          .querySelector(
-            "#portfolio"
-          )
+          .querySelector("#portfolio")
           ?.scrollIntoView({
             behavior: "smooth",
           });
       }
 
-      if (
-        value === "education"
-      ) {
+      if (value === "education") {
         document
-          .querySelector(
-            "#education"
-          )
+          .querySelector("#education")
           ?.scrollIntoView({
             behavior: "smooth",
           });
       }
 
-      if (
-        value === "resume"
-      ) {
+      if (value === "resume") {
         window.open(
           "/resume.pdf",
           "_blank",
@@ -616,9 +535,7 @@ function TerminalCard() {
         );
       }
 
-      if (
-        value === "github"
-      ) {
+      if (value === "github") {
         window.open(
           "https://github.com/Mohamed254-pixel",
           "_blank",
@@ -629,63 +546,36 @@ function TerminalCard() {
   }
 
   function moveThroughHistory(
-    direction:
-      | "up"
-      | "down"
+    direction: "up" | "down"
   ) {
-    if (
-      commandHistory.length ===
-      0
-    ) {
+    if (commandHistory.length === 0) {
       return;
     }
 
-    if (
-      direction === "up"
-    ) {
+    if (direction === "up") {
       const nextIndex =
         historyIndex < 0
-          ? commandHistory.length -
-            1
-          : Math.max(
-              0,
-              historyIndex - 1
-            );
+          ? commandHistory.length - 1
+          : Math.max(0, historyIndex - 1);
 
-      setHistoryIndex(
-        nextIndex
-      );
+      setHistoryIndex(nextIndex);
 
-      setCommand(
-        commandHistory[
-          nextIndex
-        ]
-      );
+      setCommand(commandHistory[nextIndex]);
 
       return;
     }
 
-    const nextIndex =
-      historyIndex + 1;
+    const nextIndex = historyIndex + 1;
 
-    if (
-      nextIndex >=
-      commandHistory.length
-    ) {
+    if (nextIndex >= commandHistory.length) {
       setHistoryIndex(-1);
       setCommand("");
       return;
     }
 
-    setHistoryIndex(
-      nextIndex
-    );
+    setHistoryIndex(nextIndex);
 
-    setCommand(
-      commandHistory[
-        nextIndex
-      ]
-    );
+    setCommand(commandHistory[nextIndex]);
   }
 
   return (
@@ -698,56 +588,44 @@ function TerminalCard() {
         </div>
 
         <span className="text-[10px] text-zinc-700 tracking-[0.2em] uppercase">
-          mohamed.dev /
-          terminal
+          mohamed.dev / terminal
         </span>
       </div>
 
       <div className="terminal-body">
         <div className="terminal-suggestions">
-          {suggestions.map(
-            (suggestion) => (
-              <button
-                key={
-                  suggestion
-                }
-                type="button"
-                onClick={() =>
-                  executeCommand(
-                    suggestion
-                  )
-                }
-                className="terminal-suggestion"
-              >
-                {suggestion}
-              </button>
-            )
-          )}
+          {suggestions.map((suggestion) => (
+            <button
+              key={suggestion}
+              type="button"
+              onClick={() =>
+                executeCommand(suggestion)
+              }
+              className="terminal-suggestion"
+            >
+              {suggestion}
+            </button>
+          ))}
         </div>
 
         <div className="terminal-history">
-          {history.map(
-            (
-              item,
-              index
-            ) => (
-              <div
-                key={`${item.cmd}-${index}`}
-                className="mb-5"
-              >
-                <p className="text-zinc-400 text-sm">
-                  <span className="text-zinc-700">
-                    guest@mohamed.dev:~$
-                  </span>{" "}
-                  {item.cmd}
-                </p>
+          {history.map((item, index) => (
+            <div
+              key={`${item.cmd}-${index}`}
+              className="mb-5"
+            >
+              <p className="text-zinc-400 text-sm">
+                <span className="text-zinc-700">
+                  guest@mohamed.dev:~$
+                </span>{" "}
+                {item.cmd}
+              </p>
 
-                <p className="text-zinc-600 text-sm mt-2 leading-6">
-                  {item.out}
-                </p>
-              </div>
-            )
-          )}
+              <p className="text-zinc-600 text-sm mt-2 leading-6">
+                {item.out}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="terminal-command-row">
@@ -758,42 +636,23 @@ function TerminalCard() {
           <input
             value={command}
             onChange={(event) =>
-              setCommand(
-                event.target.value
-              )
+              setCommand(event.target.value)
             }
-            onKeyDown={(
-              event
-            ) => {
-              if (
-                event.key ===
-                "Enter"
-              ) {
-                executeCommand(
-                  command
-                );
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                executeCommand(command);
               }
 
-              if (
-                event.key ===
-                "ArrowUp"
-              ) {
+              if (event.key === "ArrowUp") {
                 event.preventDefault();
 
-                moveThroughHistory(
-                  "up"
-                );
+                moveThroughHistory("up");
               }
 
-              if (
-                event.key ===
-                "ArrowDown"
-              ) {
+              if (event.key === "ArrowDown") {
                 event.preventDefault();
 
-                moveThroughHistory(
-                  "down"
-                );
+                moveThroughHistory("down");
               }
             }}
             placeholder="type help"
@@ -804,17 +663,11 @@ function TerminalCard() {
         </div>
 
         <div className="terminal-help-row">
-          <span>
-            ↑↓ history
-          </span>
+          <span>↑↓ history</span>
 
-          <span>
-            ↵ run command
-          </span>
+          <span>↵ run command</span>
 
-          <span>
-            clear resets
-          </span>
+          <span>clear resets</span>
         </div>
       </div>
     </div>
@@ -822,125 +675,70 @@ function TerminalCard() {
 }
 
 export default function Home() {
-  const [
-    activeTab,
-    setActiveTab,
-  ] = useState<
-    | "projects"
-    | "certificates"
-    | "stack"
+  const [activeTab, setActiveTab] = useState<
+    "projects" | "certificates" | "stack"
   >("projects");
 
-  const [
-    mobileMenuOpen,
-    setMobileMenuOpen,
-  ] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
-  const [
-    commandOpen,
-    setCommandOpen,
-  ] = useState(false);
+  const [commandOpen, setCommandOpen] =
+    useState(false);
 
-  const [
-    activeSection,
-    setActiveSection,
-  ] = useState("home");
+  const [activeSection, setActiveSection] =
+    useState("home");
 
-  const [
-    showBackToTop,
-    setShowBackToTop,
-  ] = useState(false);
+  const [showBackToTop, setShowBackToTop] =
+    useState(false);
 
-  const [
-    heroTilt,
-    setHeroTilt,
-  ] = useState({
+  const [heroTilt, setHeroTilt] = useState({
     x: 0,
     y: 0,
   });
 
-  const [
-    contactName,
-    setContactName,
-  ] = useState("");
+  const [contactName, setContactName] =
+    useState("");
 
-  const [
-    contactEmail,
-    setContactEmail,
-  ] = useState("");
+  const [contactEmail, setContactEmail] =
+    useState("");
 
-  const [
-    contactMessage,
-    setContactMessage,
-  ] = useState("");
+  const [contactMessage, setContactMessage] =
+    useState("");
 
-  const [
-    quickNote,
-    setQuickNote,
-  ] = useState("");
+  const [quickNote, setQuickNote] = useState("");
 
-  const [
-    openExperience,
-    setOpenExperience,
-  ] = useState<
-    number | null
-  >(0);
+  const [openExperience, setOpenExperience] =
+    useState<number | null>(0);
 
-  const [
-    isScrolled,
-    setIsScrolled,
-  ] = useState(false);
+  const [isScrolled, setIsScrolled] =
+    useState(false);
 
-  const [
-    formStatus,
-    setFormStatus,
-  ] = useState<
-    | "idle"
-    | "sending"
-    | "success"
-    | "error"
+  const [formStatus, setFormStatus] = useState<
+    "idle" | "sending" | "success" | "error"
   >("idle");
 
-  const [
-    formError,
-    setFormError,
-  ] = useState("");
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
-    function handleShortcut(
-      event: KeyboardEvent
-    ) {
+    function handleShortcut(event: KeyboardEvent) {
       if (
-        (event.metaKey ||
-          event.ctrlKey) &&
-        event.key.toLowerCase() ===
-          "k"
+        (event.metaKey || event.ctrlKey) &&
+        event.key.toLowerCase() === "k"
       ) {
         event.preventDefault();
 
-        setCommandOpen(
-          (open) => !open
-        );
+        setCommandOpen((open) => !open);
       }
 
-      if (
-        event.key ===
-        "Escape"
-      ) {
+      if (event.key === "Escape") {
         setCommandOpen(false);
       }
     }
 
-    window.addEventListener(
-      "keydown",
-      handleShortcut
-    );
+    window.addEventListener("keydown", handleShortcut);
 
     return () =>
-      window.removeEventListener(
-        "keydown",
-        handleShortcut
-      );
+      window.removeEventListener("keydown", handleShortcut);
   }, []);
 
   useEffect(() => {
@@ -953,107 +751,64 @@ export default function Home() {
       "contact",
     ];
 
-    const updateActiveSection =
-      () => {
-        const marker =
-          window.scrollY + 180;
+    const updateActiveSection = () => {
+      const marker = window.scrollY + 180;
 
-        let current = "home";
+      let current = "home";
 
-        for (const id of sectionIds) {
-          const section =
-            document.getElementById(
-              id
-            );
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
 
-          if (
-            section &&
-            section.offsetTop <=
-              marker
-          ) {
-            current = id;
-          }
+        if (section && section.offsetTop <= marker) {
+          current = id;
         }
+      }
 
-        setActiveSection(
-          current
-        );
+      setActiveSection(current);
 
-        setShowBackToTop(
-          window.scrollY > 700
-        );
+      setShowBackToTop(window.scrollY > 700);
 
-        setIsScrolled(
-          window.scrollY > 36
-        );
+      setIsScrolled(window.scrollY > 36);
 
-        const maxScroll =
-          document.documentElement
-            .scrollHeight -
-          window.innerHeight;
+      const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
 
-        const progress =
-          maxScroll > 0
-            ? window.scrollY /
-              maxScroll
-            : 0;
+      const progress =
+        maxScroll > 0 ? window.scrollY / maxScroll : 0;
 
-        document.documentElement.style.setProperty(
-          "--scroll-progress",
-          progress.toFixed(4)
-        );
+      document.documentElement.style.setProperty(
+        "--scroll-progress",
+        progress.toFixed(4)
+      );
 
-        document.documentElement.style.setProperty(
-          "--scroll-shift",
-          `${Math.round(
-            progress * 120
-          )}px`
-        );
-      };
+      document.documentElement.style.setProperty(
+        "--scroll-shift",
+        `${Math.round(progress * 120)}px`
+      );
+    };
 
     updateActiveSection();
 
-    window.addEventListener(
-      "scroll",
-      updateActiveSection,
-      {
-        passive: true,
-      }
-    );
+    window.addEventListener("scroll", updateActiveSection, {
+      passive: true,
+    });
 
-    window.addEventListener(
-      "resize",
-      updateActiveSection
-    );
+    window.addEventListener("resize", updateActiveSection);
 
     return () => {
-      window.removeEventListener(
-        "scroll",
-        updateActiveSection
-      );
+      window.removeEventListener("scroll", updateActiveSection);
 
-      window.removeEventListener(
-        "resize",
-        updateActiveSection
-      );
+      window.removeEventListener("resize", updateActiveSection);
     };
   }, []);
 
   const navItems = [
     ["Home", "#home"],
     ["About", "#about"],
-    [
-      "Experience",
-      "#experience",
-    ],
-    [
-      "Education",
-      "#education",
-    ],
-    [
-      "Portfolio",
-      "#portfolio",
-    ],
+    ["Experience", "#experience"],
+    ["Education", "#education"],
+    ["Portfolio", "#portfolio"],
     ["Contact", "#contact"],
   ];
 
@@ -1071,17 +826,9 @@ export default function Home() {
           `${event.clientY}px`
         );
 
-        const x =
-          (event.clientX /
-            window.innerWidth -
-            0.5) *
-          2;
+        const x = (event.clientX / window.innerWidth - 0.5) * 2;
 
-        const y =
-          (event.clientY /
-            window.innerHeight -
-            0.5) *
-          2;
+        const y = (event.clientY / window.innerHeight - 0.5) * 2;
 
         setHeroTilt({
           x,
@@ -1101,15 +848,10 @@ export default function Home() {
     >
       <CommandPalette
         open={commandOpen}
-        onClose={() =>
-          setCommandOpen(false)
-        }
+        onClose={() => setCommandOpen(false)}
       />
 
-      <div
-        className="page-transition-line"
-        aria-hidden="true"
-      />
+      <div className="page-transition-line" aria-hidden="true" />
 
       <div className="fixed inset-0 pointer-events-none grid-background" />
 
@@ -1131,62 +873,42 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <a
               href="#home"
-              onClick={() =>
-                setMobileMenuOpen(
-                  false
-                )
-              }
+              onClick={() => setMobileMenuOpen(false)}
               className="text-sm tracking-[0.22em] text-zinc-200 hover:text-white transition-colors duration-300"
             >
               mohamed.dev
             </a>
 
             <div className="hidden lg:flex items-center gap-6 text-sm">
-              {navItems.map(
-                ([
-                  label,
-                  href,
-                ]) => (
-                  <a
-                    key={label}
-                    href={href}
-                    className={`nav-link transition-colors duration-300 ${
-                      activeSection ===
-                      href.slice(1)
-                        ? "active text-white"
-                        : "text-zinc-500 hover:text-white"
-                    }`}
-                  >
-                    {label}
-                  </a>
-                )
-              )}
+              {navItems.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  className={`nav-link transition-colors duration-300 ${
+                    activeSection === href.slice(1)
+                      ? "active text-white"
+                      : "text-zinc-500 hover:text-white"
+                  }`}
+                >
+                  {label}
+                </a>
+              ))}
             </div>
 
             <div className="hidden md:flex items-center gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  setCommandOpen(
-                    true
-                  )
-                }
+                onClick={() => setCommandOpen(true)}
                 className="command-bar"
                 aria-label="Open quick navigation"
               >
                 <span className="command-bar-left">
-                  <LuSearch
-                    size={14}
-                  />
+                  <LuSearch size={14} />
 
-                  <span>
-                    Search site...
-                  </span>
+                  <span>Search site...</span>
                 </span>
 
-                <span className="command-bar-key">
-                  ⌘K
-                </span>
+                <span className="command-bar-key">⌘K</span>
               </button>
 
               <a
@@ -1201,80 +923,45 @@ export default function Home() {
 
             <button
               type="button"
-              aria-label={
-                mobileMenuOpen
-                  ? "Close menu"
-                  : "Open menu"
-              }
-              aria-expanded={
-                mobileMenuOpen
-              }
-              onClick={() =>
-                setMobileMenuOpen(
-                  (open) =>
-                    !open
-                )
-              }
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
               className="md:hidden mobile-menu-button"
             >
               {mobileMenuOpen ? (
                 <LuX size={20} />
               ) : (
-                <LuMenu
-                  size={20}
-                />
+                <LuMenu size={20} />
               )}
             </button>
           </div>
 
           <div
             className={`md:hidden mobile-menu-panel ${
-              mobileMenuOpen
-                ? "is-open"
-                : ""
+              mobileMenuOpen ? "is-open" : ""
             }`}
           >
             <div className="pt-4 pb-1 grid gap-1">
-              {navItems.map(
-                ([
-                  label,
-                  href,
-                ]) => (
-                  <a
-                    key={label}
-                    href={href}
-                    onClick={() =>
-                      setMobileMenuOpen(
-                        false
-                      )
-                    }
-                    className={`mobile-nav-link ${
-                      activeSection ===
-                      href.slice(1)
-                        ? "is-active"
-                        : ""
-                    }`}
-                  >
-                    <span>
-                      {label}
-                    </span>
+              {navItems.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`mobile-nav-link ${
+                    activeSection === href.slice(1) ? "is-active" : ""
+                  }`}
+                >
+                  <span>{label}</span>
 
-                    <span className="text-zinc-700">
-                      ↗
-                    </span>
-                  </a>
-                )
-              )}
+                  <span className="text-zinc-700">↗</span>
+                </a>
+              ))}
 
               <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                onClick={() =>
-                  setMobileMenuOpen(
-                    false
-                  )
-                }
+                onClick={() => setMobileMenuOpen(false)}
                 className="mobile-resume-link"
               >
                 Resume
@@ -1299,22 +986,17 @@ export default function Home() {
                     <span className="internship-pulse" />
 
                     <span>
-                      Open to internships
-                      &amp; project
-                      opportunities
+                      Open to internships &amp; project opportunities
                     </span>
                   </div>
 
                   <span className="hero-badge-note">
-                    San Jose · Data
-                    Engineering
+                    San Jose · Data Engineering
                   </span>
                 </div>
 
                 <h1 className="hero-title text-[60px] sm:text-[86px] lg:text-[108px] leading-[0.84] font-black tracking-[-0.065em] uppercase">
-                  <span className="hero-word hero-word-one">
-                    Data
-                  </span>
+                  <span className="hero-word hero-word-one">Data</span>
 
                   <br />
 
@@ -1324,62 +1006,33 @@ export default function Home() {
                 </h1>
 
                 <p className="hero-subtitle">
-                  MIS Student · Data
-                  Engineering Focus
+                  MIS Student · Data Engineering Focus
                 </p>
 
-                <div
-                  className="hero-signal-row"
-                  aria-label="Current focus"
-                >
-                  <span className="hero-signal-label">
-                    CURRENT FOCUS
-                  </span>
+                <div className="hero-signal-row" aria-label="Current focus">
+                  <span className="hero-signal-label">CURRENT FOCUS</span>
 
-                  <span className="hero-signal-value">
-                    Pipelines
-                  </span>
+                  <span className="hero-signal-value">Pipelines</span>
 
-                  <span className="hero-signal-sep">
-                    /
-                  </span>
+                  <span className="hero-signal-sep">/</span>
 
-                  <span className="hero-signal-value">
-                    Analytics
-                  </span>
+                  <span className="hero-signal-value">Analytics</span>
 
-                  <span className="hero-signal-sep">
-                    /
-                  </span>
+                  <span className="hero-signal-sep">/</span>
 
-                  <span className="hero-signal-value">
-                    AI Systems
-                  </span>
+                  <span className="hero-signal-value">AI Systems</span>
                 </div>
 
                 <p className="mt-5 max-w-xl text-zinc-500 text-sm md:text-base leading-7">
-                  I build reliable data
-                  pipelines, analytics
-                  systems, and
-                  AI-powered tools that
-                  turn messy information
-                  into structured,
+                  I build reliable data pipelines, analytics systems, and
+                  AI-powered tools that turn messy information into structured,
                   useful results.
                 </p>
 
                 <div className="flex flex-wrap gap-3 mt-7">
-                  {[
-                    "Python",
-                    "SQL",
-                    "ETL",
-                    "APIs",
-                    "Data Modeling",
-                  ].map(
+                  {["Python", "SQL", "ETL", "APIs", "Data Modeling"].map(
                     (skill) => (
-                      <span
-                        key={skill}
-                        className="skill-pill"
-                      >
+                      <span key={skill} className="skill-pill">
                         {skill}
                       </span>
                     )
@@ -1387,10 +1040,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-wrap gap-3 mt-8">
-                  <a
-                    href="#portfolio"
-                    className="premium-button"
-                  >
+                  <a href="#portfolio" className="premium-button">
                     View Projects
                   </a>
 
@@ -1408,10 +1058,7 @@ export default function Home() {
                     download="Mohamed-Ibrahim-Resume.pdf"
                     className="ghost-button"
                   >
-                    <LuDownload
-                      size={14}
-                    />
-
+                    <LuDownload size={14} />
                     Download Resume
                   </a>
                 </div>
@@ -1423,10 +1070,7 @@ export default function Home() {
                     rel="noreferrer"
                     className="hero-text-link"
                   >
-                    <LuFileText
-                      size={13}
-                    />
-
+                    <LuFileText size={13} />
                     View Resume
                   </a>
 
@@ -1436,10 +1080,7 @@ export default function Home() {
                     rel="noreferrer"
                     className="hero-text-link"
                   >
-                    <LuLinkedin
-                      size={13}
-                    />
-
+                    <LuLinkedin size={13} />
                     LinkedIn
                   </a>
 
@@ -1449,24 +1090,15 @@ export default function Home() {
                     rel="noreferrer"
                     className="hero-text-link"
                   >
-                    <LuGithub
-                      size={13}
-                    />
-
+                    <LuGithub size={13} />
                     GitHub
                   </a>
                 </div>
 
                 <div className="mt-8 text-xs text-zinc-700 space-y-2 tracking-wide">
-                  <p>
-                    ↳ explore selected
-                    work below
-                  </p>
+                  <p>↳ explore selected work below</p>
 
-                  <p>
-                    ↳ data engineering ·
-                    analytics · AI
-                  </p>
+                  <p>↳ data engineering · analytics · AI</p>
                 </div>
               </div>
 
@@ -1479,18 +1111,10 @@ export default function Home() {
                 <div
                   className="clean-hero-photo"
                   style={{
-                    transform: `translate3d(${
-                      heroTilt.x *
-                      8
-                    }px, ${
-                      heroTilt.y *
-                      5
-                    }px, 0) rotateY(${
-                      heroTilt.x *
-                      4
-                    }deg) rotateX(${
-                      -heroTilt.y *
-                      3
+                    transform: `translate3d(${heroTilt.x * 8}px, ${
+                      heroTilt.y * 5
+                    }px, 0) rotateY(${heroTilt.x * 4}deg) rotateX(${
+                      -heroTilt.y * 3
                     }deg)`,
                   }}
                 >
@@ -1505,57 +1129,35 @@ export default function Home() {
                   </div>
 
                   <div className="clean-hero-photo-meta">
-                    <span>
-                      MOHAMED IBRAHIM
-                    </span>
+                    <span>MOHAMED IBRAHIM</span>
 
-                    <span>
-                      DATA · MIS
-                    </span>
+                    <span>DATA · MIS</span>
                   </div>
                 </div>
 
                 <div className="hero-data-chip hero-data-chip-one">
-                  <span className="hero-data-kicker">
-                    PIPELINE
-                  </span>
+                  <span className="hero-data-kicker">PIPELINE</span>
 
-                  <strong>
-                    ETL → SQL
-                  </strong>
+                  <strong>ETL → SQL</strong>
                 </div>
 
                 <div className="hero-data-chip hero-data-chip-two">
-                  <span className="hero-data-kicker">
-                    ROWS
-                  </span>
+                  <span className="hero-data-kicker">ROWS</span>
 
-                  <strong>
-                    278K+
-                  </strong>
+                  <strong>278K+</strong>
                 </div>
 
                 <div className="hero-data-chip hero-data-chip-three">
-                  <span className="hero-data-kicker">
-                    MATCHES
-                  </span>
+                  <span className="hero-data-kicker">MATCHES</span>
 
-                  <strong>
-                    380
-                  </strong>
+                  <strong>380</strong>
                 </div>
               </div>
             </div>
           </Reveal>
 
-          <a
-            href="#about"
-            className="scroll-explore"
-            aria-label="Scroll to explore"
-          >
-            <span>
-              SCROLL TO EXPLORE
-            </span>
+          <a href="#about" className="scroll-explore" aria-label="Scroll to explore">
+            <span>SCROLL TO EXPLORE</span>
 
             <span className="scroll-explore-line" />
 
@@ -1564,51 +1166,24 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-4 pb-10">
             {[
-              [
-                "01",
-                "Projects",
-                "3",
-              ],
-              [
-                "02",
-                "Certification",
-                "Google Data Analytics",
-              ],
-              [
-                "03",
-                "Focus",
-                "Data + AI",
-              ],
-            ].map(
-              ([
-                num,
-                label,
-                value,
-              ]) => (
-                <div
-                  key={label}
-                  className="info-card group depth-card"
-                >
-                  <span className="text-zinc-600 text-xs">
-                    {num}
-                  </span>
+              ["01", "Projects", "3"],
+              ["02", "Certification", "Google Data Analytics"],
+              ["03", "Focus", "Data + AI"],
+            ].map(([num, label, value]) => (
+              <div key={label} className="info-card group depth-card">
+                <span className="text-zinc-600 text-xs">{num}</span>
 
-                  <div>
-                    <p className="text-xs tracking-[0.2em] text-zinc-500 uppercase">
-                      {label}
-                    </p>
+                <div>
+                  <p className="text-xs tracking-[0.2em] text-zinc-500 uppercase">
+                    {label}
+                  </p>
 
-                    <p className="mt-1 text-xl md:text-2xl font-semibold">
-                      {value}
-                    </p>
-                  </div>
-
-                  <span className="text-zinc-600">
-                    ↗
-                  </span>
+                  <p className="mt-1 text-xl md:text-2xl font-semibold">{value}</p>
                 </div>
-              )
-            )}
+
+                <span className="text-zinc-600">↗</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -1621,82 +1196,45 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
             <div>
-              <p className="section-kicker">
-                About Me
-              </p>
+              <p className="section-kicker">About Me</p>
 
               <h2 className="text-5xl md:text-7xl font-black tracking-[-0.045em] leading-[0.94]">
                 I BUILD SYSTEMS
                 <br />
 
-                <span className="text-zinc-600">
-                  THAT MAKE DATA
-                  USEFUL.
-                </span>
+                <span className="text-zinc-600">THAT MAKE DATA USEFUL.</span>
               </h2>
 
               <div className="mt-8 max-w-2xl space-y-5 text-zinc-500 leading-7">
                 <p>
-                  I&apos;m an MIS
-                  student focused on
-                  data engineering,
-                  analytics, and
-                  AI-powered systems. I
-                  enjoy taking raw,
-                  inconsistent data and
-                  designing a clean path
-                  from ingestion to
-                  transformation,
-                  storage, and analysis.
+                  I&apos;m an MIS student focused on data engineering,
+                  analytics, and AI-powered systems. I enjoy taking raw,
+                  inconsistent data and designing a clean path from ingestion to
+                  transformation, storage, and analysis.
                 </p>
 
                 <p>
-                  My projects are built
-                  around practical
-                  engineering
-                  decisions: reliable
-                  pipelines, clear
-                  schemas, repeatable
-                  processing, and
-                  results that can be
-                  checked instead of
+                  My projects are built around practical engineering
+                  decisions: reliable pipelines, clear schemas, repeatable
+                  processing, and results that can be checked instead of
                   guessed.
                 </p>
               </div>
 
               <div className="grid sm:grid-cols-3 gap-3 mt-10">
                 {[
-                  [
-                    "BUILD",
-                    "End-to-end pipelines",
-                  ],
-                  [
-                    "THINK",
-                    "Data quality first",
-                  ],
-                  [
-                    "SHIP",
-                    "Useful, testable systems",
-                  ],
-                ].map(
-                  ([
-                    title,
-                    text,
-                  ]) => (
-                    <div
-                      key={title}
-                      className="about-mini-card"
-                    >
-                      <p className="text-[10px] tracking-[0.25em] text-zinc-600">
-                        {title}
-                      </p>
+                  ["BUILD", "End-to-end pipelines"],
+                  ["THINK", "Data quality first"],
+                  ["SHIP", "Useful, testable systems"],
+                ].map(([title, text]) => (
+                  <div key={title} className="about-mini-card">
+                    <p className="text-[10px] tracking-[0.25em] text-zinc-600">
+                      {title}
+                    </p>
 
-                      <p className="mt-3 text-sm text-zinc-300">
-                        {text}
-                      </p>
-                    </div>
-                  )
-                )}
+                    <p className="mt-3 text-sm text-zinc-300">{text}</p>
+                  </div>
+                ))}
               </div>
 
               <div className="flex flex-wrap gap-3 mt-8">
@@ -1712,16 +1250,11 @@ export default function Home() {
                   "APIs",
                   "Git",
                   "GitHub",
-                ].map(
-                  (skill) => (
-                    <span
-                      key={skill}
-                      className="skill-pill"
-                    >
-                      {skill}
-                    </span>
-                  )
-                )}
+                ].map((skill) => (
+                  <span key={skill} className="skill-pill">
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -1746,83 +1279,50 @@ export default function Home() {
       <section className="relative px-5 md:px-10 lg:px-14 py-20">
         <Reveal className="max-w-7xl mx-auto">
           <div className="story-shell">
-            <div className="story-index">
-              04
-            </div>
+            <div className="story-index">04</div>
 
             <div className="story-content">
-              <p className="section-kicker">
-                My Story
-              </p>
+              <p className="section-kicker">My Story</p>
 
               <h2 className="story-title">
                 From systems thinking
-                <span>
-                  {" "}
-                  to data engineering.
-                </span>
+                <span> to data engineering.</span>
               </h2>
 
               <div className="story-copy">
                 <p>
-                  I started in MIS
-                  because I was
-                  interested in both the
-                  business side of
-                  technology and how
-                  systems work behind
-                  the scenes. Working
-                  with databases,
-                  Python, SQL, and
-                  analytics pulled me
-                  toward data
-                  engineering.
+                  I started in MIS because I was interested in both the
+                  business side of technology and how systems work behind
+                  the scenes. Working with databases, Python, SQL, and
+                  analytics pulled me toward data engineering.
                 </p>
 
                 <p>
-                  What I care about most
-                  is building things
-                  that work end to end:
-                  collecting data,
-                  cleaning it, storing
-                  it correctly, and
-                  turning it into
-                  something useful.
+                  What I care about most is building things that work end to
+                  end: collecting data, cleaning it, storing it correctly, and
+                  turning it into something useful.
                 </p>
               </div>
             </div>
 
             <div className="story-side">
               <div className="story-side-card">
-                <span className="story-side-label">
-                  Direction
-                </span>
+                <span className="story-side-label">Direction</span>
 
-                <strong>
-                  Data Engineering
-                </strong>
+                <strong>Data Engineering</strong>
 
                 <p>
-                  Reliable pipelines,
-                  useful systems, and
-                  measurable outcomes.
+                  Reliable pipelines, useful systems, and measurable outcomes.
                 </p>
               </div>
 
               <div className="story-side-card">
-                <span className="story-side-label">
-                  Approach
-                </span>
+                <span className="story-side-label">Approach</span>
 
-                <strong>
-                  End to End
-                </strong>
+                <strong>End to End</strong>
 
                 <p>
-                  From raw data to
-                  transformation,
-                  storage, analysis,
-                  and AI.
+                  From raw data to transformation, storage, analysis, and AI.
                 </p>
               </div>
             </div>
@@ -1835,25 +1335,16 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="recruiter-shell">
             <div className="recruiter-copy">
-              <p className="section-kicker">
-                Recruiter Snapshot
-              </p>
+              <p className="section-kicker">Recruiter Snapshot</p>
 
               <h2 className="recruiter-title">
                 A quick read on
-                <span>
-                  {" "}
-                  what I bring.
-                </span>
+                <span> what I bring.</span>
               </h2>
 
               <p className="recruiter-intro">
-                Technical project
-                work, operational
-                responsibility, and a
-                business-systems
-                mindset — all pointed
-                toward data
+                Technical project work, operational responsibility, and a
+                business-systems mindset — all pointed toward data
                 engineering.
               </p>
 
@@ -1864,10 +1355,7 @@ export default function Home() {
                   rel="noreferrer"
                   className="premium-button"
                 >
-                  <LuFileText
-                    size={14}
-                  />
-
+                  <LuFileText size={14} />
                   View Resume
                 </a>
 
@@ -1877,10 +1365,7 @@ export default function Home() {
                   rel="noreferrer"
                   className="ghost-button"
                 >
-                  <LuLinkedin
-                    size={14}
-                  />
-
+                  <LuLinkedin size={14} />
                   LinkedIn
                 </a>
               </div>
@@ -1888,55 +1373,20 @@ export default function Home() {
 
             <div className="recruiter-grid">
               {[
-                [
-                  "01",
-                  "Location",
-                  "San Jose, CA",
-                ],
-                [
-                  "02",
-                  "Focus",
-                  "Data Engineering",
-                ],
-                [
-                  "03",
-                  "Education",
-                  "SJSU · MIS",
-                ],
-                [
-                  "04",
-                  "Core Stack",
-                  "Python · SQL · ETL",
-                ],
-                [
-                  "05",
-                  "In Progress",
-                  "Agent layer + pipeline reliability",
-                ],
-              ].map(
-                ([
-                  index,
-                  label,
-                  value,
-                ]) => (
-                  <div
-                    key={label}
-                    className="recruiter-stat spotlight-card"
-                  >
-                    <span className="recruiter-stat-index">
-                      {index}
-                    </span>
+                ["01", "Location", "San Jose, CA"],
+                ["02", "Focus", "Data Engineering"],
+                ["03", "Education", "SJSU · MIS"],
+                ["04", "Core Stack", "Python · SQL · ETL"],
+                ["05", "In Progress", "Agent layer + pipeline reliability"],
+              ].map(([index, label, value]) => (
+                <div key={label} className="recruiter-stat spotlight-card">
+                  <span className="recruiter-stat-index">{index}</span>
 
-                    <p className="recruiter-stat-label">
-                      {label}
-                    </p>
+                  <p className="recruiter-stat-label">{label}</p>
 
-                    <p className="recruiter-stat-value">
-                      {value}
-                    </p>
-                  </div>
-                )
-              )}
+                  <p className="recruiter-stat-value">{value}</p>
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>
@@ -1950,145 +1400,76 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="experience-heading-grid">
             <div>
-              <p className="section-kicker">
-                Experience
-              </p>
+              <p className="section-kicker">Experience</p>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em] leading-[0.95]">
-                Experience that
-                connects
-                <span className="text-zinc-600">
-                  {" "}
-                  operations and data.
-                </span>
+                Experience that connects
+                <span className="text-zinc-600"> operations and data.</span>
               </h2>
             </div>
 
             <p className="experience-heading-copy">
-              Real-time decision
-              making, operational
-              ownership, technical
-              problem solving, and
-              clear communication.
+              Real-time decision making, operational ownership, technical
+              problem solving, and clear communication.
             </p>
           </div>
 
           <div className="experience-list mt-12">
-            <div
-              className="experience-rail"
-              aria-hidden="true"
-            >
+            <div className="experience-rail" aria-hidden="true">
               <span />
             </div>
 
-            {experienceItems.map(
-              (item, index) => {
-                const isOpen =
-                  openExperience ===
-                  index;
+            {experienceItems.map((item, index) => {
+              const isOpen = openExperience === index;
 
-                return (
-                  <article
-                    key={
-                      item.role
+              return (
+                <article
+                  key={item.role}
+                  className={`experience-card ${isOpen ? "is-open" : ""}`}
+                >
+                  <button
+                    type="button"
+                    className="experience-card-trigger"
+                    onClick={() =>
+                      setOpenExperience((current) =>
+                        current === index ? null : index
+                      )
                     }
-                    className={`experience-card ${
-                      isOpen
-                        ? "is-open"
-                        : ""
-                    }`}
+                    aria-expanded={isOpen}
                   >
-                    <button
-                      type="button"
-                      className="experience-card-trigger"
-                      onClick={() =>
-                        setOpenExperience(
-                          (
-                            current
-                          ) =>
-                            current ===
-                            index
-                              ? null
-                              : index
-                        )
-                      }
-                      aria-expanded={
-                        isOpen
-                      }
-                    >
-                      <span className="experience-index">
-                        {String(
-                          index + 1
-                        ).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
+                    <span className="experience-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-                      <div className="experience-main">
-                        <p className="experience-date">
-                          {
-                            item.date
-                          }
-                        </p>
+                    <div className="experience-main">
+                      <p className="experience-date">{item.date}</p>
 
-                        <h3>
-                          {
-                            item.role
-                          }
-                        </h3>
+                      <h3>{item.role}</h3>
 
-                        <p className="experience-company">
-                          {
-                            item.company
-                          }
-                        </p>
-                      </div>
+                      <p className="experience-company">{item.company}</p>
+                    </div>
 
-                      <p className="experience-summary">
-                        {
-                          item.summary
-                        }
-                      </p>
+                    <p className="experience-summary">{item.summary}</p>
 
-                      <span className="experience-toggle">
-                        <LuChevronDown
-                          size={17}
-                        />
-                      </span>
-                    </button>
+                    <span className="experience-toggle">
+                      <LuChevronDown size={17} />
+                    </span>
+                  </button>
 
-                    <div className="experience-expand">
-                      <div className="experience-expand-inner">
-                        <p>
-                          {
-                            item.details
-                          }
-                        </p>
+                  <div className="experience-expand">
+                    <div className="experience-expand-inner">
+                      <p>{item.details}</p>
 
-                        <div className="experience-skill-row">
-                          {item.skills.map(
-                            (
-                              skill
-                            ) => (
-                              <span
-                                key={
-                                  skill
-                                }
-                              >
-                                {
-                                  skill
-                                }
-                              </span>
-                            )
-                          )}
-                        </div>
+                      <div className="experience-skill-row">
+                        {item.skills.map((skill) => (
+                          <span key={skill}>{skill}</span>
+                        ))}
                       </div>
                     </div>
-                  </article>
-                );
-              }
-            )}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </Reveal>
       </section>
@@ -2102,29 +1483,19 @@ export default function Home() {
           <div className="rounded-[28px] border border-white/10 bg-white/[0.02] overflow-hidden">
             <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
               <div className="p-8 md:p-12 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/10">
-                <p className="section-kicker">
-                  Education
-                </p>
+                <p className="section-kicker">Education</p>
 
                 <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-[-0.045em] leading-[0.95]">
                   Business systems
                   <br />
 
-                  <span className="text-zinc-600">
-                    meet engineering.
-                  </span>
+                  <span className="text-zinc-600">meet engineering.</span>
                 </h2>
 
                 <p className="mt-6 max-w-lg text-sm md:text-base text-zinc-600 leading-7">
-                  Building a technical
-                  foundation across
-                  databases,
-                  programming,
-                  analytics, data
-                  engineering, and AI
-                  while studying the
-                  business side of
-                  information systems.
+                  Building a technical foundation across databases,
+                  programming, analytics, data engineering, and AI while
+                  studying the business side of information systems.
                 </p>
               </div>
 
@@ -2132,29 +1503,22 @@ export default function Home() {
                 <div className="flex items-start justify-between gap-6">
                   <div>
                     <p className="text-xs uppercase tracking-[0.24em] text-zinc-600">
-                      San José State
-                      University
+                      San José State University
                     </p>
 
                     <h3 className="mt-4 text-2xl md:text-3xl font-semibold text-zinc-100">
-                      B.S. Business
-                      Administration —
-                      Management
-                      Information
+                      B.S. Business Administration — Management Information
                       Systems
                     </h3>
                   </div>
 
-                  <span className="text-xs text-zinc-700">
-                    SJSU
-                  </span>
+                  <span className="text-xs text-zinc-700">SJSU</span>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4 mt-10">
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-700">
-                      Expected
-                      Graduation
+                      Expected Graduation
                     </p>
 
                     <p className="mt-3 text-xl font-semibold text-zinc-200">
@@ -2168,8 +1532,7 @@ export default function Home() {
                     </p>
 
                     <p className="mt-3 text-base font-medium text-zinc-300">
-                      Data Engineering ·
-                      Analytics · AI
+                      Data Engineering · Analytics · AI
                     </p>
                   </div>
                 </div>
@@ -2182,16 +1545,11 @@ export default function Home() {
                     "Analytics",
                     "Information Systems",
                     "AI",
-                  ].map(
-                    (item) => (
-                      <span
-                        key={item}
-                        className="mini-tag"
-                      >
-                        {item}
-                      </span>
-                    )
-                  )}
+                  ].map((item) => (
+                    <span key={item} className="mini-tag">
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -2204,19 +1562,15 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-12 items-center">
             <div>
-              <p className="section-kicker">
-                Interactive
-              </p>
+              <p className="section-kicker">Interactive</p>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em]">
                 Try the terminal.
               </h2>
 
               <p className="mt-5 text-zinc-600 max-w-lg leading-7">
-                A quick way to explore
-                my background, skills,
-                projects, education,
-                and contact info.
+                A quick way to explore my background, skills, projects,
+                education, and contact info.
               </p>
             </div>
 
@@ -2230,9 +1584,7 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
-              <p className="section-kicker">
-                Current Builds
-              </p>
+              <p className="section-kicker">Current Builds</p>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em]">
                 Engineering Upgrades
@@ -2240,9 +1592,7 @@ export default function Home() {
             </div>
 
             <p className="text-sm text-zinc-600 max-w-md leading-6">
-              Improvements currently
-              being built on top of
-              working project
+              Improvements currently being built on top of working project
               foundations.
             </p>
           </div>
@@ -2253,54 +1603,32 @@ export default function Home() {
               className="building-card group block"
             >
               <div className="flex items-center justify-between">
-                <StatusBadge>
-                  Active Development
-                </StatusBadge>
+                <StatusBadge>Active Development</StatusBadge>
 
-                <span className="text-xs text-zinc-700">
-                  01
-                </span>
+                <span className="text-xs text-zinc-700">01</span>
               </div>
 
               <h3 className="text-2xl font-semibold mt-8">
-                Verified Analytics
-                Agent Layer
+                Verified Analytics Agent Layer
               </h3>
 
               <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Building a SQL-first,
-                read-only analytics
-                layer that answers
-                questions using
-                verified query results.
+                Building a SQL-first, read-only analytics layer that answers
+                questions using verified query results.
               </p>
 
               <div className="flex flex-wrap gap-2 mt-6">
-                {[
-                  "SQL",
-                  "PostgreSQL",
-                  "Read-only",
-                  "AI",
-                ].map(
-                  (item) => (
-                    <span
-                      key={item}
-                      className="mini-tag"
-                    >
-                      {item}
-                    </span>
-                  )
-                )}
+                {["SQL", "PostgreSQL", "Read-only", "AI"].map((item) => (
+                  <span key={item} className="mini-tag">
+                    {item}
+                  </span>
+                ))}
               </div>
 
               <div className="mt-8 flex items-center justify-between text-sm">
-                <span className="text-zinc-700">
-                  Open project
-                </span>
+                <span className="text-zinc-700">Open project</span>
 
-                <span className="text-zinc-500">
-                  →
-                </span>
+                <span className="text-zinc-500">→</span>
               </div>
             </a>
 
@@ -2310,7 +1638,7 @@ export default function Home() {
             >
               <div className="flex items-center justify-between">
                 <StatusBadge>
-                  Upgrade Completed
+                  Validated Pipeline
                 </StatusBadge>
 
                 <span className="text-xs text-zinc-700">
@@ -2318,38 +1646,31 @@ export default function Home() {
                 </span>
               </div>
 
-              <h3 className="text-2xl font-semibold mt-8">
-                Docker + Airflow
-                Pipeline
+              <h3 className="mt-8 text-2xl font-semibold">
+                Docker + Airflow Pipeline
               </h3>
 
-              <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Upgraded the Premier
-                League pipeline with
-                Docker and Apache
-                Airflow. Four ordered
-                tasks use dependencies,
-                retries, logs, failure
-                tracking, and shared
-                Docker storage.
+              <p className="mt-4 text-sm leading-6 text-zinc-600">
+                Dockerized Premier League pipeline orchestrated with Apache Airflow.
+                Five ordered tasks handle extraction, MySQL loading, and automated
+                data-quality validation with retries, logs, and failure tracking.
               </p>
 
-              <div className="flex flex-wrap gap-2 mt-6">
+              <div className="mt-6 flex flex-wrap gap-2">
                 {[
                   "Apache Airflow",
                   "Docker",
                   "MySQL",
                   "ETL",
-                ].map(
-                  (item) => (
-                    <span
-                      key={item}
-                      className="mini-tag"
-                    >
-                      {item}
-                    </span>
-                  )
-                )}
+                  "Data Quality",
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="mini-tag"
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
 
               <div className="mt-8 flex items-center justify-between text-sm">
@@ -2373,67 +1694,43 @@ export default function Home() {
       >
         <Reveal className="max-w-7xl mx-auto">
           <div className="text-center">
-            <p className="section-kicker">
-              Selected Work
-            </p>
+            <p className="section-kicker">Selected Work</p>
 
             <h2 className="text-5xl md:text-7xl font-black tracking-[-0.04em]">
               Portfolio Showcase
             </h2>
 
             <p className="mt-4 text-zinc-600">
-              Projects,
-              certifications, and the
-              technical stack behind
-              my work.
+              Projects, certifications, and the technical stack behind my work.
             </p>
           </div>
 
           <div className="mt-10 border border-white/10 rounded-2xl p-2 grid grid-cols-3 bg-white/[0.03] backdrop-blur-xl">
             {[
-              [
-                "projects",
-                "Projects",
-              ],
-              [
-                "certificates",
-                "Certificates",
-              ],
-              [
-                "stack",
-                "Tech Stack",
-              ],
-            ].map(
-              ([
-                tab,
-                label,
-              ]) => (
-                <button
-                  key={tab}
-                  onClick={() =>
-                    setActiveTab(
-                      tab as
-                        | "projects"
-                        | "certificates"
-                        | "stack"
-                    )
-                  }
-                  className={`rounded-xl py-3 text-sm transition-all duration-300 ${
-                    activeTab ===
-                    tab
-                      ? "bg-white/[0.1] text-white shadow-inner"
-                      : "text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.025]"
-                  }`}
-                >
-                  {label}
-                </button>
-              )
-            )}
+              ["projects", "Projects"],
+              ["certificates", "Certificates"],
+              ["stack", "Tech Stack"],
+            ].map(([tab, label]) => (
+              <button
+                key={tab}
+                onClick={() =>
+                  setActiveTab(
+                    tab as "projects" | "certificates" | "stack"
+                  )
+                }
+                className={`rounded-xl py-3 text-sm transition-all duration-300 ${
+                  activeTab === tab
+                    ? "bg-white/[0.1] text-white shadow-inner"
+                    : "text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.025]"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
           {/* PROJECTS */}
-          {activeTab ===
-            "projects" && (
+          {activeTab === "projects" && (
             <div className="mt-10 space-y-5">
               {/* FEATURED MUSIC PROJECT */}
               <div className="project-card overflow-hidden">
@@ -2554,52 +1851,37 @@ export default function Home() {
                     </span>
 
                     <StatusBadge>
-                      Upgrade Completed
+                      Validated Pipeline
                     </StatusBadge>
                   </div>
 
-                  <h3 className="text-2xl font-semibold mt-7">
-                    Soccer Data
-                    Pipeline
+                  <h3 className="mt-7 text-2xl font-semibold">
+                    Soccer Data Pipeline
                   </h3>
 
-                  <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    Dockerized Premier
-                    League ETL pipeline
-                    orchestrated with
-                    Apache Airflow. Four
-                    ordered tasks extract
-                    and load match, team,
-                    and venue data into
-                    MySQL with retries,
-                    logging, and
-                    duplicate-safe
-                    UPSERT logic.
+                  <p className="mt-3 text-sm leading-6 text-zinc-600">
+                    Dockerized Premier League ETL pipeline orchestrated with Apache
+                    Airflow. Five ordered tasks extract and load match, team, and venue
+                    data into MySQL before running nine automated data-quality checks.
                   </p>
 
                   <div className="project-metric-row">
                     <span>
-                      <strong>
-                        380
-                      </strong>{" "}
+                      <strong>380</strong>{" "}
                       matches
                     </span>
 
                     <span>
-                      <strong>
-                        4
-                      </strong>{" "}
+                      <strong>5</strong>{" "}
                       Airflow tasks
                     </span>
                   </div>
 
-                  <p className="text-xs text-zinc-700 mt-5">
-                    Python · Pandas ·
-                    MySQL · Docker ·
-                    Apache Airflow
+                  <p className="mt-5 text-xs text-zinc-700">
+                    Python · Pandas · MySQL · Docker · Apache Airflow
                   </p>
 
-                  <div className="flex flex-wrap gap-3 mt-7">
+                  <div className="mt-7 flex flex-wrap gap-3">
                     <a
                       href="/projects/soccer-data-pipeline"
                       className="ghost-button"
@@ -2620,50 +1902,32 @@ export default function Home() {
 
                 <div className="project-card project-card-pro p-7">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="text-xs text-zinc-700">
-                      03
-                    </span>
+                    <span className="text-xs text-zinc-700">03</span>
 
-                    <StatusBadge>
-                      Completed
-                    </StatusBadge>
+                    <StatusBadge>Completed</StatusBadge>
                   </div>
 
                   <h3 className="text-2xl font-semibold mt-7">
-                    Customer
-                    Segmentation
+                    Customer Segmentation
                   </h3>
 
                   <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    Customer analytics
-                    project using
-                    K-Means clustering
-                    to organize customer
-                    records into
-                    interpretable
-                    segments.
+                    Customer analytics project using K-Means clustering to
+                    organize customer records into interpretable segments.
                   </p>
 
                   <div className="project-metric-row">
                     <span>
-                      <strong>
-                        500+
-                      </strong>{" "}
-                      records
+                      <strong>500+</strong> records
                     </span>
 
                     <span>
-                      <strong>
-                        4
-                      </strong>{" "}
-                      clusters
+                      <strong>4</strong> clusters
                     </span>
                   </div>
 
                   <p className="text-xs text-zinc-700 mt-5">
-                    Python · Pandas ·
-                    K-Means ·
-                    Matplotlib
+                    Python · Pandas · K-Means · Matplotlib
                   </p>
 
                   <div className="flex flex-wrap gap-3 mt-7">
@@ -2689,8 +1953,7 @@ export default function Home() {
           )}
 
           {/* CERTIFICATES */}
-          {activeTab ===
-            "certificates" && (
+          {activeTab === "certificates" && (
             <div className="grid md:grid-cols-2 gap-5 mt-10">
               <div className="project-card p-8 group">
                 <p className="text-xs text-zinc-600 tracking-[0.25em] uppercase">
@@ -2698,19 +1961,12 @@ export default function Home() {
                 </p>
 
                 <h3 className="text-2xl font-semibold mt-4">
-                  Google Data
-                  Analytics
-                  Professional
-                  Certificate
+                  Google Data Analytics Professional Certificate
                 </h3>
 
                 <p className="text-zinc-600 mt-4 text-sm leading-6">
-                  Professional training
-                  in data analysis,
-                  spreadsheets, SQL,
-                  Tableau, R, data
-                  cleaning, and
-                  visualization.
+                  Professional training in data analysis, spreadsheets, SQL,
+                  Tableau, R, data cleaning, and visualization.
                 </p>
 
                 <div className="mt-6 grid sm:grid-cols-2 gap-3">
@@ -2729,9 +1985,7 @@ export default function Home() {
                       Credential ID
                     </p>
 
-                    <p className="text-sm text-zinc-300 mt-2">
-                      SEN3EZJEPCLN
-                    </p>
+                    <p className="text-sm text-zinc-300 mt-2">SEN3EZJEPCLN</p>
                   </div>
                 </div>
 
@@ -2742,10 +1996,7 @@ export default function Home() {
                     rel="noreferrer"
                     className="premium-button"
                   >
-                    <LuFileText
-                      size={14}
-                    />
-
+                    <LuFileText size={14} />
                     View Certificate ↗
                   </a>
 
@@ -2755,92 +2006,51 @@ export default function Home() {
                     rel="noreferrer"
                     className="ghost-button"
                   >
-                    <LuExternalLink
-                      size={14}
-                    />
-
+                    <LuExternalLink size={14} />
                     Verify Credential
                   </a>
                 </div>
               </div>
 
               <div className="project-card p-8 flex items-center justify-center min-h-[250px]">
-                <p className="text-zinc-700 text-sm">
-                  More coming soon
-                </p>
+                <p className="text-zinc-700 text-sm">More coming soon</p>
               </div>
             </div>
           )}
 
           {/* TECH STACK */}
-          {activeTab ===
-            "stack" && (
+          {activeTab === "stack" && (
             <div className="tech-category-grid mt-10">
-              {techCategories.map(
-                (
-                  category,
-                  categoryIndex
-                ) => (
-                  <div
-                    key={
-                      category.name
-                    }
-                    className="tech-category-card spotlight-card"
-                  >
-                    <div className="tech-category-top">
-                      <span className="tech-category-index">
-                        {String(
-                          categoryIndex +
-                            1
-                        ).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
+              {techCategories.map((category, categoryIndex) => (
+                <div
+                  key={category.name}
+                  className="tech-category-card spotlight-card"
+                >
+                  <div className="tech-category-top">
+                    <span className="tech-category-index">
+                      {String(categoryIndex + 1).padStart(2, "0")}
+                    </span>
 
-                      <div>
-                        <h3>
-                          {
-                            category.name
-                          }
-                        </h3>
+                    <div>
+                      <h3>{category.name}</h3>
 
-                        <p>
-                          {
-                            category.description
-                          }
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="tech-category-items">
-                      {category.items.map(
-                        ({
-                          Icon,
-                          name,
-                        }) => (
-                          <div
-                            key={
-                              name
-                            }
-                            className="tech-category-item"
-                          >
-                            <span className="tech-category-icon">
-                              <Icon aria-hidden="true" />
-                            </span>
-
-                            <span>
-                              {
-                                name
-                              }
-                            </span>
-                          </div>
-                        )
-                      )}
+                      <p>{category.description}</p>
                     </div>
                   </div>
-                )
-              )}
+
+                  <div className="tech-category-items">
+                    {category.items.map(({ Icon, name }) => (
+                      <div key={name} className="tech-category-item">
+                        <span className="tech-category-icon">
+                          <Icon aria-hidden="true" />
+                        </span>
+
+                        <span>{name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </Reveal>
@@ -2854,27 +2064,18 @@ export default function Home() {
         <Reveal className="max-w-7xl mx-auto">
           <div className="contact-layout">
             <div className="contact-side-panel">
-              <p className="section-kicker">
-                Contact
-              </p>
+              <p className="section-kicker">Contact</p>
 
               <h2 className="contact-side-title">
                 Have something
                 <br />
 
-                <span>
-                  worth building?
-                </span>
+                <span>worth building?</span>
               </h2>
 
               <p className="contact-side-copy">
-                I&apos;m open to
-                internship
-                opportunities, data
-                projects,
-                collaborations, and
-                conversations around
-                analytics,
+                I&apos;m open to internship opportunities, data projects,
+                collaborations, and conversations around analytics,
                 engineering, and AI.
               </p>
 
@@ -2882,13 +2083,9 @@ export default function Home() {
                 <span className="contact-availability-dot" />
 
                 <div>
-                  <p className="contact-mini-label">
-                    Current status
-                  </p>
+                  <p className="contact-mini-label">Current status</p>
 
-                  <p className="contact-mini-value">
-                    Open to opportunities
-                  </p>
+                  <p className="contact-mini-value">Open to opportunities</p>
                 </div>
               </div>
 
@@ -2897,13 +2094,9 @@ export default function Home() {
                   href="mailto:mohamedibrahim.sjsu@gmail.com"
                   className="contact-link-row"
                 >
-                  <span>
-                    Email
-                  </span>
+                  <span>Email</span>
 
-                  <strong>
-                    mohamedibrahim.sjsu@gmail.com
-                  </strong>
+                  <strong>mohamedibrahim.sjsu@gmail.com</strong>
 
                   <span>↗</span>
                 </a>
@@ -2914,13 +2107,9 @@ export default function Home() {
                   rel="noreferrer"
                   className="contact-link-row"
                 >
-                  <span>
-                    LinkedIn
-                  </span>
+                  <span>LinkedIn</span>
 
-                  <strong>
-                    Mohamed Ibrahim
-                  </strong>
+                  <strong>Mohamed Ibrahim</strong>
 
                   <span>↗</span>
                 </a>
@@ -2931,33 +2120,20 @@ export default function Home() {
                   rel="noreferrer"
                   className="contact-link-row"
                 >
-                  <span>
-                    GitHub
-                  </span>
+                  <span>GitHub</span>
 
-                  <strong>
-                    Mohamed254-pixel
-                  </strong>
+                  <strong>Mohamed254-pixel</strong>
 
                   <span>↗</span>
                 </a>
               </div>
 
               <div className="quick-note-card">
-                <p className="contact-mini-label">
-                  Quick note
-                </p>
+                <p className="contact-mini-label">Quick note</p>
 
                 <textarea
                   value={quickNote}
-                  onChange={(
-                    event
-                  ) =>
-                    setQuickNote(
-                      event.target
-                        .value
-                    )
-                  }
+                  onChange={(event) => setQuickNote(event.target.value)}
                   placeholder="Example: I saw your soccer data project..."
                   className="quick-note-input"
                   rows={4}
@@ -2967,17 +2143,14 @@ export default function Home() {
                   type="button"
                   className="ghost-button w-full justify-center mt-3"
                   onClick={() => {
-                    if (
-                      !quickNote.trim()
-                    ) {
+                    if (!quickNote.trim()) {
                       return;
                     }
 
-                    setContactMessage(
-                      (current) =>
-                        current.trim()
-                          ? `${current.trim()}\n\n${quickNote.trim()}`
-                          : quickNote.trim()
+                    setContactMessage((current) =>
+                      current.trim()
+                        ? `${current.trim()}\n\n${quickNote.trim()}`
+                        : quickNote.trim()
                     );
 
                     setQuickNote("");
@@ -2991,9 +2164,7 @@ export default function Home() {
             <div className="contact-form-shell">
               <div className="contact-form-heading">
                 <div className="contact-form-topline">
-                  <p className="section-kicker">
-                    Let&apos;s Connect
-                  </p>
+                  <p className="section-kicker">Let&apos;s Connect</p>
 
                   <span className="contact-secure-note">
                     <span className="contact-secure-dot" />
@@ -3001,175 +2172,108 @@ export default function Home() {
                   </span>
                 </div>
 
-                <h3>
-                  Send me a message.
-                </h3>
+                <h3>Send me a message.</h3>
 
-                <p>
-                  Send a note directly
-                  from the portfolio.
-                </p>
+                <p>Send a note directly from the portfolio.</p>
               </div>
 
               <form
                 className="contact-form"
-                onSubmit={async (
-                  event
-                ) => {
+                onSubmit={async (event) => {
                   event.preventDefault();
 
                   setFormError("");
 
-                  const cleanName =
-                    contactName.trim();
+                  const cleanName = contactName.trim();
 
-                  const cleanEmail =
-                    contactEmail.trim();
+                  const cleanEmail = contactEmail.trim();
 
-                  const cleanMessage =
-                    contactMessage.trim();
+                  const cleanMessage = contactMessage.trim();
 
-                  if (
-                    !cleanName ||
-                    !cleanEmail ||
-                    !cleanMessage
-                  ) {
+                  if (!cleanName || !cleanEmail || !cleanMessage) {
                     setFormError(
                       "Please complete your name, email, and message."
                     );
 
-                    setFormStatus(
-                      "error"
-                    );
+                    setFormStatus("error");
 
                     return;
                   }
 
                   const endpoint =
-                    process.env
-                      .NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+                    process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
                   if (!endpoint) {
                     setFormError(
                       "The direct contact endpoint still needs to be connected."
                     );
 
-                    setFormStatus(
-                      "error"
-                    );
+                    setFormStatus("error");
 
                     return;
                   }
 
-                  setFormStatus(
-                    "sending"
-                  );
+                  setFormStatus("sending");
 
                   try {
-                    const response =
-                      await fetch(
-                        endpoint,
-                        {
-                          method:
-                            "POST",
+                    const response = await fetch(endpoint, {
+                      method: "POST",
 
-                          headers:
-                            {
-                              "Content-Type":
-                                "application/json",
+                      headers: {
+                        "Content-Type": "application/json",
 
-                              Accept:
-                                "application/json",
-                            },
+                        Accept: "application/json",
+                      },
 
-                          body: JSON.stringify(
-                            {
-                              name: cleanName,
-                              email:
-                                cleanEmail,
-                              message:
-                                cleanMessage,
-                              _subject: `Portfolio message from ${cleanName}`,
-                            }
-                          ),
-                        }
-                      );
+                      body: JSON.stringify({
+                        name: cleanName,
+                        email: cleanEmail,
+                        message: cleanMessage,
+                        _subject: `Portfolio message from ${cleanName}`,
+                      }),
+                    });
 
-                    if (
-                      !response.ok
-                    ) {
-                      throw new Error(
-                        "Message could not be sent."
-                      );
+                    if (!response.ok) {
+                      throw new Error("Message could not be sent.");
                     }
 
-                    setFormStatus(
-                      "success"
-                    );
+                    setFormStatus("success");
 
-                    setContactName(
-                      ""
-                    );
+                    setContactName("");
 
-                    setContactEmail(
-                      ""
-                    );
+                    setContactEmail("");
 
-                    setContactMessage(
-                      ""
-                    );
+                    setContactMessage("");
                   } catch {
-                    setFormError(
-                      "Something went wrong while sending."
-                    );
+                    setFormError("Something went wrong while sending.");
 
-                    setFormStatus(
-                      "error"
-                    );
+                    setFormStatus("error");
                   }
                 }}
               >
                 <div className="grid sm:grid-cols-2 gap-4">
                   <label className="contact-field">
-                    <span>
-                      Name
-                    </span>
+                    <span>Name</span>
 
                     <input
                       required
-                      value={
-                        contactName
-                      }
-                      onChange={(
-                        event
-                      ) =>
-                        setContactName(
-                          event.target
-                            .value
-                        )
+                      value={contactName}
+                      onChange={(event) =>
+                        setContactName(event.target.value)
                       }
                       placeholder="Your name"
                     />
                   </label>
 
                   <label className="contact-field">
-                    <span>
-                      Email
-                    </span>
+                    <span>Email</span>
 
                     <input
                       required
                       type="email"
-                      value={
-                        contactEmail
-                      }
-                      onChange={(
-                        event
-                      ) =>
-                        setContactEmail(
-                          event.target
-                            .value
-                        )
+                      value={contactEmail}
+                      onChange={(event) =>
+                        setContactEmail(event.target.value)
                       }
                       placeholder="you@email.com"
                     />
@@ -3177,22 +2281,13 @@ export default function Home() {
                 </div>
 
                 <label className="contact-field">
-                  <span>
-                    Message
-                  </span>
+                  <span>Message</span>
 
                   <textarea
                     required
-                    value={
-                      contactMessage
-                    }
-                    onChange={(
-                      event
-                    ) =>
-                      setContactMessage(
-                        event.target
-                          .value
-                      )
+                    value={contactMessage}
+                    onChange={(event) =>
+                      setContactMessage(event.target.value)
                     }
                     placeholder="Tell me what you want to talk about..."
                     rows={8}
@@ -3203,29 +2298,18 @@ export default function Home() {
                   <button
                     type="submit"
                     className="premium-button"
-                    disabled={
-                      formStatus ===
-                      "sending"
-                    }
+                    disabled={formStatus === "sending"}
                   >
-                    {formStatus ===
-                    "sending" ? (
+                    {formStatus === "sending" ? (
                       "Sending..."
-                    ) : formStatus ===
-                      "success" ? (
+                    ) : formStatus === "success" ? (
                       <>
-                        <LuCheck
-                          size={14}
-                        />
-
+                        <LuCheck size={14} />
                         Sent
                       </>
                     ) : (
                       <>
-                        <LuSend
-                          size={14}
-                        />
-
+                        <LuSend size={14} />
                         Send Message
                       </>
                     )}
@@ -3242,20 +2326,14 @@ export default function Home() {
                 </div>
               </form>
 
-              {formStatus ===
-                "success" && (
+              {formStatus === "success" && (
                 <p className="form-status is-success">
-                  Message sent
-                  successfully.
+                  Message sent successfully.
                 </p>
               )}
 
-              {formStatus ===
-                "error" && (
-                <p
-                  className="form-status is-error"
-                  role="alert"
-                >
+              {formStatus === "error" && (
+                <p className="form-status is-error" role="alert">
                   {formError}
                 </p>
               )}
@@ -3263,13 +2341,9 @@ export default function Home() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row gap-3 justify-between text-xs text-zinc-700">
-            <span>
-              mohamed.dev
-            </span>
+            <span>mohamed.dev</span>
 
-            <span>
-              © 2026 Mohamed Ibrahim
-            </span>
+            <span>© 2026 Mohamed Ibrahim</span>
           </div>
         </Reveal>
       </section>
@@ -3283,19 +2357,12 @@ export default function Home() {
             behavior: "smooth",
           })
         }
-        className={`back-to-top ${
-          showBackToTop
-            ? "is-visible"
-            : ""
-        }`}
+        className={`back-to-top ${showBackToTop ? "is-visible" : ""}`}
       >
         <LuArrowUp size={17} />
 
-        <span className="hidden sm:inline">
-          Top
-        </span>
+        <span className="hidden sm:inline">Top</span>
       </button>
     </main>
   );
 }
-
