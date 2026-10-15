@@ -3397,3 +3397,83 @@ textarea:focus-visible {
     padding: 15px;
   }
 }
+
+/* Original portfolio composition, with the charcoal and green palette. */
+.portfolio-surface {
+  --portfolio-accent: #b8e986;
+  background:
+    radial-gradient(950px 620px at 18% calc(8% + var(--scroll-shift)), rgba(184,233,134,.055), transparent 68%),
+    radial-gradient(820px 560px at 88% calc(34% - var(--scroll-shift)), rgba(139,162,149,.07), transparent 68%),
+    radial-gradient(760px 520px at 42% calc(65% + var(--scroll-shift)), rgba(184,233,134,.025), transparent 72%),
+    linear-gradient(180deg, #141719 0%, #1b2022 16%, #14191b 31%, #202628 48%, #14191b 63%, #1b2223 79%, #141719 100%);
+}
+
+.portfolio-surface .premium-button {
+  color: #192015;
+  background: var(--portfolio-accent);
+  border-color: var(--portfolio-accent);
+}
+
+.portfolio-surface .premium-button:hover {
+  background: #c9f2a2;
+  box-shadow: 0 12px 35px rgba(184,233,134,.12);
+}
+
+.portfolio-surface .hero-word-two,
+.portfolio-surface .section-kicker,
+.portfolio-surface .hero-signal-value,
+.portfolio-surface .hero-data-chip strong,
+.portfolio-surface .nav-link.active,
+.portfolio-surface .mobile-nav-link.is-active {
+  color: var(--portfolio-accent);
+}
+
+.portfolio-surface .internship-badge {
+  color: #d2e9bc;
+  border-color: rgba(184,233,134,.2);
+  background: rgba(184,233,134,.045);
+}
+
+.portfolio-surface .internship-pulse,
+.portfolio-surface .contact-secure-dot,
+.portfolio-surface .scroll-explore-dot,
+.portfolio-surface .nav-link::after {
+  background: var(--portfolio-accent);
+}
+
+.portfolio-surface .page-transition-line,
+.portfolio-surface .experience-rail span {
+  background: linear-gradient(90deg, #6d8d58, #b8e986);
+}
+
+.portfolio-surface .hero-orbit-ring {
+  border-color: rgba(184,233,134,.1);
+}
+
+.portfolio-surface .skill-pill,
+.portfolio-surface .mini-tag,
+.portfolio-surface .tech-category-item {
+  color: #b0b8b3;
+  border-color: rgba(184,233,134,.11);
+}
+
+.portfolio-surface .skill-pill:hover,
+.portfolio-surface .ghost-button:hover,
+.portfolio-surface .hero-text-link:hover,
+.portfolio-surface .tech-category-item:hover {
+  color: var(--portfolio-accent);
+  border-color: rgba(184,233,134,.3);
+  background: rgba(184,233,134,.04);
+}
+
+.portfolio-surface a:focus-visible,
+.portfolio-surface button:focus-visible,
+.portfolio-surface input:focus-visible,
+.portfolio-surface textarea:focus-visible {
+  outline-color: var(--portfolio-accent);
+}
+
+.portfolio-surface ::selection {
+  color: #192015;
+  background: var(--portfolio-accent);
+}
