@@ -3399,7 +3399,7 @@ textarea:focus-visible {
 }
 
 /* Original portfolio composition, with the charcoal and green palette. */
-.portfolio-surface {
+:is(.portfolio-surface, .project-pages) {
   --portfolio-accent: #b8e986;
   background:
     radial-gradient(950px 620px at 18% calc(8% + var(--scroll-shift)), rgba(184,233,134,.055), transparent 68%),
@@ -3408,72 +3408,113 @@ textarea:focus-visible {
     linear-gradient(180deg, #141719 0%, #1b2022 16%, #14191b 31%, #202628 48%, #14191b 63%, #1b2223 79%, #141719 100%);
 }
 
-.portfolio-surface .premium-button {
+:is(.portfolio-surface, .project-pages) .premium-button {
   color: #192015;
   background: var(--portfolio-accent);
   border-color: var(--portfolio-accent);
 }
 
-.portfolio-surface .premium-button:hover {
+:is(.portfolio-surface, .project-pages) .premium-button:hover {
   background: #c9f2a2;
   box-shadow: 0 12px 35px rgba(184,233,134,.12);
 }
 
-.portfolio-surface .hero-word-two,
-.portfolio-surface .section-kicker,
-.portfolio-surface .hero-signal-value,
-.portfolio-surface .hero-data-chip strong,
-.portfolio-surface .nav-link.active,
-.portfolio-surface .mobile-nav-link.is-active {
+:is(.portfolio-surface, .project-pages) .hero-word-two,
+:is(.portfolio-surface, .project-pages) .section-kicker,
+:is(.portfolio-surface, .project-pages) .hero-signal-value,
+:is(.portfolio-surface, .project-pages) .hero-data-chip strong,
+:is(.portfolio-surface, .project-pages) .nav-link.active,
+:is(.portfolio-surface, .project-pages) .mobile-nav-link.is-active {
   color: var(--portfolio-accent);
 }
 
-.portfolio-surface .internship-badge {
+:is(.portfolio-surface, .project-pages) .internship-badge {
   color: #d2e9bc;
   border-color: rgba(184,233,134,.2);
   background: rgba(184,233,134,.045);
 }
 
-.portfolio-surface .internship-pulse,
-.portfolio-surface .contact-secure-dot,
-.portfolio-surface .scroll-explore-dot,
-.portfolio-surface .nav-link::after {
+:is(.portfolio-surface, .project-pages) .internship-pulse,
+:is(.portfolio-surface, .project-pages) .contact-secure-dot,
+:is(.portfolio-surface, .project-pages) .scroll-explore-dot,
+:is(.portfolio-surface, .project-pages) .nav-link::after {
   background: var(--portfolio-accent);
 }
 
-.portfolio-surface .page-transition-line,
-.portfolio-surface .experience-rail span {
+:is(.portfolio-surface, .project-pages) .page-transition-line,
+:is(.portfolio-surface, .project-pages) .experience-rail span {
   background: linear-gradient(90deg, #6d8d58, #b8e986);
 }
 
-.portfolio-surface .hero-orbit-ring {
+:is(.portfolio-surface, .project-pages) .hero-orbit-ring {
   border-color: rgba(184,233,134,.1);
 }
 
-.portfolio-surface .skill-pill,
-.portfolio-surface .mini-tag,
-.portfolio-surface .tech-category-item {
+:is(.portfolio-surface, .project-pages) .skill-pill,
+:is(.portfolio-surface, .project-pages) .mini-tag,
+:is(.portfolio-surface, .project-pages) .tech-category-item {
   color: #b0b8b3;
   border-color: rgba(184,233,134,.11);
 }
 
-.portfolio-surface .skill-pill:hover,
-.portfolio-surface .ghost-button:hover,
-.portfolio-surface .hero-text-link:hover,
-.portfolio-surface .tech-category-item:hover {
+:is(.portfolio-surface, .project-pages) .skill-pill:hover,
+:is(.portfolio-surface, .project-pages) .ghost-button:hover,
+:is(.portfolio-surface, .project-pages) .hero-text-link:hover,
+:is(.portfolio-surface, .project-pages) .tech-category-item:hover {
   color: var(--portfolio-accent);
   border-color: rgba(184,233,134,.3);
   background: rgba(184,233,134,.04);
 }
 
-.portfolio-surface a:focus-visible,
-.portfolio-surface button:focus-visible,
-.portfolio-surface input:focus-visible,
-.portfolio-surface textarea:focus-visible {
+:is(.portfolio-surface, .project-pages) a:focus-visible,
+:is(.portfolio-surface, .project-pages) button:focus-visible,
+:is(.portfolio-surface, .project-pages) input:focus-visible,
+:is(.portfolio-surface, .project-pages) textarea:focus-visible {
   outline-color: var(--portfolio-accent);
 }
 
-.portfolio-surface ::selection {
+:is(.portfolio-surface, .project-pages) ::selection {
   color: #192015;
   background: var(--portfolio-accent);
+}
+
+
+/* Project pages share the palette without changing their composition. */
+.project-pages {
+  --scroll-shift: 0px;
+}
+
+.project-pages > main {
+  background: transparent;
+}
+
+.project-pages :is(.text-zinc-500, .text-zinc-600, .text-zinc-700) {
+  color: #b0b8b3;
+}
+
+.project-pages :is(.uppercase, h1 span) {
+  color: var(--portfolio-accent);
+}
+
+.project-pages a.bg-white {
+  color: #192015;
+  background: var(--portfolio-accent);
+}
+
+.project-pages a.bg-white:hover {
+  background: #c9f2a2;
+}
+
+.project-pages a:not(.premium-button):not(.bg-white):hover {
+  color: var(--portfolio-accent);
+}
+
+.project-pages .rounded-full.bg-zinc-400 {
+  background: var(--portfolio-accent);
+}
+
+.project-pages .rounded-full.border {
+  color: #d2e9bc;
+  border-color: rgba(184,233,134,.2);
+  background: rgba(184,233,134,.045);
 }
