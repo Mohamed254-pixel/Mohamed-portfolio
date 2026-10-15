@@ -744,10 +744,10 @@ export default function Home() {
   useEffect(() => {
     const sectionIds = [
       "home",
+      "portfolio",
       "about",
       "experience",
       "education",
-      "portfolio",
       "contact",
     ];
 
@@ -805,10 +805,10 @@ export default function Home() {
 
   const navItems = [
     ["Home", "#home"],
+    ["Projects", "#portfolio"],
     ["About", "#about"],
     ["Experience", "#experience"],
     ["Education", "#education"],
-    ["Portfolio", "#portfolio"],
     ["Contact", "#contact"],
   ];
 
@@ -1156,7 +1156,7 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <a href="#about" className="scroll-explore" aria-label="Scroll to explore">
+          <a href="#portfolio" className="scroll-explore" aria-label="Scroll to projects">
             <span>SCROLL TO EXPLORE</span>
 
             <span className="scroll-explore-line" />
@@ -1166,7 +1166,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-4 pb-10">
             {[
-              ["01", "Projects", "3"],
+              ["01", "Projects", "4"],
               ["02", "Certification", "Google Data Analytics"],
               ["03", "Focus", "Data + AI"],
             ].map(([num, label, value]) => (
@@ -1186,6 +1186,366 @@ export default function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* PORTFOLIO */}
+      <section
+        id="portfolio"
+        className="scroll-mt-28 relative px-5 md:px-10 lg:px-14 py-28"
+      >
+        <Reveal className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <p className="section-kicker">Selected Work</p>
+
+            <h2 className="text-5xl md:text-7xl font-black tracking-[-0.04em]">
+              Selected Projects
+            </h2>
+
+            <p className="mt-4 mx-auto max-w-2xl text-sm md:text-base leading-7 text-zinc-400">
+              Data pipelines, database systems, and analytics — with completed work and current development clearly marked.
+            </p>
+          </div>
+
+          <div className="mt-10 border border-white/10 rounded-2xl p-2 grid grid-cols-3 bg-white/[0.03] backdrop-blur-xl">
+            {[
+              ["projects", "Projects"],
+              ["certificates", "Certificates"],
+              ["stack", "Tech Stack"],
+            ].map(([tab, label]) => (
+              <button
+                key={tab}
+                type="button"
+                aria-pressed={activeTab === tab}
+                onClick={() =>
+                  setActiveTab(
+                    tab as "projects" | "certificates" | "stack"
+                  )
+                }
+                className={`rounded-xl py-3 text-sm transition-all duration-300 ${
+                  activeTab === tab
+                    ? "bg-white/[0.1] text-white shadow-inner"
+                    : "text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.025]"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* PROJECTS */}
+          {activeTab === "projects" && (
+            <div className="mt-10 space-y-5">
+              <article className="project-card overflow-hidden">
+                <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="p-7 md:p-10 lg:p-12">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.28em] text-zinc-400">
+                        Featured · Data Engineering
+                      </span>
+                      <StatusBadge>Completed</StatusBadge>
+                    </div>
+
+                    <h3 className="mt-6 text-3xl md:text-5xl font-bold tracking-[-0.04em]">
+                      Soccer Data Pipeline
+                    </h3>
+
+                    <p className="mt-5 max-w-xl text-sm md:text-base leading-7 text-zinc-400">
+                      A repeatable Premier League ETL pipeline that moves
+                      API-Football data into MySQL. Five Apache Airflow tasks
+                      coordinate extraction, loading, and validation inside
+                      Docker, with retries and logs to help track failures.
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-zinc-400">
+                      Primary keys and UPSERT loading prevent duplicate records
+                      on reruns. The completed workflow loaded match, team, and
+                      venue data and passed all nine automated data-quality checks.
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mt-6">
+                      {["Python", "Pandas", "Apache Airflow", "Docker", "MySQL"].map((item) => (
+                        <span key={item} className="mini-tag">{item}</span>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap gap-3 mt-8">
+                      <a href="/projects/soccer-data-pipeline" className="premium-button">
+                        View Case Study
+                      </a>
+                      <a
+                        href="https://github.com/Mohamed254-pixel/soccer-data-pipeline"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ghost-button"
+                      >
+                        <LuGithub size={14} /> Source Code ↗
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="border-t lg:border-t-0 lg:border-l border-white/10 bg-white/[0.018] p-7 md:p-10">
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
+                      Completed Pipeline Results
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 mt-6">
+                      {[
+                        ["380", "match records"],
+                        ["20 + 20", "teams + venues"],
+                        ["5", "Airflow tasks"],
+                        ["9", "quality checks passed"],
+                      ].map(([value, label]) => (
+                        <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                          <p className="text-2xl font-semibold">{value}</p>
+                          <p className="text-xs text-zinc-400 mt-2">{label}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                        Architecture
+                      </p>
+                      <p className="mt-3 text-sm leading-7 text-zinc-400">
+                        API-Football → Python + Pandas → MySQL → Data-quality checks
+                      </p>
+                      <p className="mt-3 text-xs leading-6 text-zinc-500">
+                        Orchestrated with Apache Airflow in Docker.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article className="project-card project-card-pro p-7 md:p-10">
+                <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                        AI + Software + Data Engineering
+                      </span>
+                      <StatusBadge>In Development</StatusBadge>
+                    </div>
+                    <h3 className="mt-7 text-2xl md:text-3xl font-semibold">
+                      Agentic AI Customer Service Assistant
+                    </h3>
+                    <p className="mt-4 text-sm md:text-base leading-7 text-zinc-400">
+                      Building the data foundation for an Instacart customer
+                      service assistant. A Python pipeline prepares a development
+                      sample and loads it into DuckDB. Read-only SQL functions
+                      retrieve historical customer orders and the products in an order.
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-6">
+                      {["Python", "DuckDB", "SQL", "Pandas"].map((item) => (
+                        <span key={item} className="mini-tag">{item}</span>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap gap-3 mt-7">
+                      <a href="/projects/agentic-ai-customer-service" className="premium-button">
+                        View Project
+                      </a>
+                      <a href="https://github.com/Mohamed254-pixel/Agentic-AI-customer-service" target="_blank" rel="noreferrer" className="ghost-button">
+                        <LuGithub size={14} /> Source Code ↗
+                      </a>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-5 md:p-6">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">Current Progress</p>
+                    <p className="mt-4 text-sm leading-7 text-zinc-300">
+                      Completed: Python data pipeline, persistent DuckDB sample
+                      database, and customer-order lookup functions.
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-zinc-400">
+                      Upcoming: LangGraph routing, specialized AI agents,
+                      conversation memory, and the customer service application.
+                    </p>
+                    <p className="mt-5 border-t border-white/10 pt-4 text-xs leading-6 text-zinc-500">
+                      SJSU group project · Historical purchase data · AI application in development
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                <article className="project-card project-card-pro p-7 md:p-8 flex flex-col">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                      Data Engineering + AI
+                    </span>
+                    <StatusBadge>In Progress</StatusBadge>
+                  </div>
+                  <h3 className="mt-7 text-2xl font-semibold">Music Insights Agent</h3>
+                  <p className="mt-4 text-sm leading-7 text-zinc-400">
+                    Transforms Apple Music activity exports with Python and
+                    Pandas, saves cleaned data as Parquet, and loads unique
+                    events into Dockerized PostgreSQL. Four reusable SQL views
+                    support repeatable listening-history analysis.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 mt-6">
+                    {[["172,899", "unique database events"], ["4", "SQL analytics views"]].map(([value, label]) => (
+                      <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <p className="text-xl font-semibold">{value}</p>
+                        <p className="mt-2 text-xs leading-5 text-zinc-400">{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-sm leading-6">
+                    <p className="text-zinc-300">Completed: ETL pipeline, PostgreSQL loading, and SQL views.</p>
+                    <p className="mt-2 text-zinc-400">In progress: a read-only analytics agent and Power BI dashboard.</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {["Python", "Pandas", "Parquet", "Docker", "PostgreSQL", "SQL"].map((item) => (
+                      <span key={item} className="mini-tag">{item}</span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-3 mt-auto pt-7">
+                    <a href="/projects/music-insights-agent" className="ghost-button">Case Study →</a>
+                    <a href="https://github.com/Mohamed254-pixel/music-insights-agent" target="_blank" rel="noreferrer" className="ghost-button">
+                      <LuGithub size={14} /> Source Code ↗
+                    </a>
+                  </div>
+                </article>
+
+                <article className="project-card project-card-pro p-7 md:p-8 flex flex-col">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                      Analytics + Machine Learning
+                    </span>
+                    <StatusBadge>Completed</StatusBadge>
+                  </div>
+                  <h3 className="mt-7 text-2xl font-semibold">Customer Segmentation</h3>
+                  <p className="mt-4 text-sm leading-7 text-zinc-400">
+                    Prepares customer records with Python and Pandas, then uses
+                    K-Means clustering to organize them into four interpretable
+                    segments. Matplotlib visualizations help compare the groups
+                    and explore patterns in the dataset.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 mt-6">
+                    {[["500+", "customer records"], ["4", "customer clusters"]].map(([value, label]) => (
+                      <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <p className="text-xl font-semibold">{value}</p>
+                        <p className="mt-2 text-xs leading-5 text-zinc-400">{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-sm leading-6 text-zinc-300">
+                    Completed: data preparation, clustering, and visualization.
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {["Python", "Pandas", "K-Means", "Matplotlib"].map((item) => (
+                      <span key={item} className="mini-tag">{item}</span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-3 mt-auto pt-7">
+                    <a href="/projects/customer-segmentation" className="ghost-button">Case Study →</a>
+                    <a href="https://github.com/Mohamed254-pixel/customer-segmentation" target="_blank" rel="noreferrer" className="ghost-button">
+                      <LuGithub size={14} /> Source Code ↗
+                    </a>
+                  </div>
+                </article>
+              </div>
+            </div>
+          )}
+
+          {/* CERTIFICATES */}
+          {activeTab === "certificates" && (
+            <div className="grid md:grid-cols-2 gap-5 mt-10">
+              <div className="project-card p-8 group">
+                <p className="text-xs text-zinc-600 tracking-[0.25em] uppercase">
+                  Google · Coursera
+                </p>
+
+                <h3 className="text-2xl font-semibold mt-4">
+                  Google Data Analytics Professional Certificate
+                </h3>
+
+                <p className="text-zinc-600 mt-4 text-sm leading-6">
+                  Professional training in data analysis, spreadsheets, SQL,
+                  Tableau, R, data cleaning, and visualization.
+                </p>
+
+                <div className="mt-6 grid sm:grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-xs text-zinc-700 uppercase tracking-[0.18em]">
+                      Issued
+                    </p>
+
+                    <p className="text-sm text-zinc-300 mt-2">
+                      August 15, 2025
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="text-xs text-zinc-700 uppercase tracking-[0.18em]">
+                      Credential ID
+                    </p>
+
+                    <p className="text-sm text-zinc-300 mt-2">SEN3EZJEPCLN</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <a
+                    href="/google-data-analytics-certificate.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="premium-button"
+                  >
+                    <LuFileText size={14} />
+                    View Certificate ↗
+                  </a>
+
+                  <a
+                    href="https://www.coursera.org/account/accomplishments/professional-cert/certificate/SEN3EZJEPCLN"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ghost-button"
+                  >
+                    <LuExternalLink size={14} />
+                    Verify Credential
+                  </a>
+                </div>
+              </div>
+
+              <div className="project-card p-8 flex items-center justify-center min-h-[250px]">
+                <p className="text-zinc-700 text-sm">More coming soon</p>
+              </div>
+            </div>
+          )}
+
+          {/* TECH STACK */}
+          {activeTab === "stack" && (
+            <div className="tech-category-grid mt-10">
+              {techCategories.map((category, categoryIndex) => (
+                <div
+                  key={category.name}
+                  className="tech-category-card spotlight-card"
+                >
+                  <div className="tech-category-top">
+                    <span className="tech-category-index">
+                      {String(categoryIndex + 1).padStart(2, "0")}
+                    </span>
+
+                    <div>
+                      <h3>{category.name}</h3>
+
+                      <p>{category.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="tech-category-items">
+                    {category.items.map(({ Icon, name }) => (
+                      <div key={name} className="tech-category-item">
+                        <span className="tech-category-icon">
+                          <Icon aria-hidden="true" />
+                        </span>
+
+                        <span>{name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Reveal>
       </section>
 
       {/* ABOUT */}
@@ -1576,483 +1936,6 @@ export default function Home() {
 
             <TerminalCard />
           </div>
-        </Reveal>
-      </section>
-
-      {/* CURRENT BUILDS */}
-      <section className="relative px-5 md:px-10 lg:px-14 py-24">
-        <Reveal className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <p className="section-kicker">Current Builds</p>
-
-              <h2 className="text-4xl md:text-6xl font-black tracking-[-0.04em]">
-                Engineering Upgrades
-              </h2>
-            </div>
-
-            <p className="text-sm text-zinc-600 max-w-md leading-6">
-              Improvements currently being built on top of working project
-              foundations.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-5 mt-10">
-            <a
-              href="/projects/music-insights-agent"
-              className="building-card group block"
-            >
-              <div className="flex items-center justify-between">
-                <StatusBadge>Active Development</StatusBadge>
-
-                <span className="text-xs text-zinc-700">01</span>
-              </div>
-
-              <h3 className="text-2xl font-semibold mt-8">
-                Verified Analytics Agent Layer
-              </h3>
-
-              <p className="text-sm text-zinc-600 leading-6 mt-4">
-                Building a SQL-first, read-only analytics layer that answers
-                questions using verified query results.
-              </p>
-
-              <div className="flex flex-wrap gap-2 mt-6">
-                {["SQL", "PostgreSQL", "Read-only", "AI"].map((item) => (
-                  <span key={item} className="mini-tag">
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-8 flex items-center justify-between text-sm">
-                <span className="text-zinc-700">Open project</span>
-
-                <span className="text-zinc-500">→</span>
-              </div>
-            </a>
-
-            <a
-              href="/projects/soccer-data-pipeline"
-              className="building-card group block"
-            >
-              <div className="flex items-center justify-between">
-                <StatusBadge>
-                  Validated Pipeline
-                </StatusBadge>
-
-                <span className="text-xs text-zinc-700">
-                  02
-                </span>
-              </div>
-
-              <h3 className="mt-8 text-2xl font-semibold">
-                Docker + Airflow Pipeline
-              </h3>
-
-              <p className="mt-4 text-sm leading-6 text-zinc-600">
-                Dockerized Premier League pipeline orchestrated with Apache Airflow.
-                Five ordered tasks handle extraction, MySQL loading, and automated
-                data-quality validation with retries, logs, and failure tracking.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {[
-                  "Apache Airflow",
-                  "Docker",
-                  "MySQL",
-                  "ETL",
-                  "Data Quality",
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="mini-tag"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-8 flex items-center justify-between text-sm">
-                <span className="text-zinc-700">
-                  Open project
-                </span>
-
-                <span className="text-zinc-500">
-                  →
-                </span>
-              </div>
-            </a>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* PORTFOLIO */}
-      <section
-        id="portfolio"
-        className="scroll-mt-28 relative px-5 md:px-10 lg:px-14 py-28"
-      >
-        <Reveal className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <p className="section-kicker">Selected Work</p>
-
-            <h2 className="text-5xl md:text-7xl font-black tracking-[-0.04em]">
-              Portfolio Showcase
-            </h2>
-
-            <p className="mt-4 text-zinc-600">
-              Projects, certifications, and the technical stack behind my work.
-            </p>
-          </div>
-
-          <div className="mt-10 border border-white/10 rounded-2xl p-2 grid grid-cols-3 bg-white/[0.03] backdrop-blur-xl">
-            {[
-              ["projects", "Projects"],
-              ["certificates", "Certificates"],
-              ["stack", "Tech Stack"],
-            ].map(([tab, label]) => (
-              <button
-                key={tab}
-                onClick={() =>
-                  setActiveTab(
-                    tab as "projects" | "certificates" | "stack"
-                  )
-                }
-                className={`rounded-xl py-3 text-sm transition-all duration-300 ${
-                  activeTab === tab
-                    ? "bg-white/[0.1] text-white shadow-inner"
-                    : "text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.025]"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {/* PROJECTS */}
-          {activeTab === "projects" && (
-            <div className="mt-10 space-y-5">
-              {/* FEATURED MUSIC PROJECT */}
-              <div className="project-card overflow-hidden">
-                <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="p-7 md:p-10 lg:p-12">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="text-[10px] uppercase tracking-[0.28em] text-zinc-600">
-                        Featured Project
-                      </span>
-
-                      <StatusBadge>Active Development</StatusBadge>
-                    </div>
-
-                    <h3 className="mt-6 text-3xl md:text-5xl font-bold tracking-[-0.04em]">
-                      Music Insights Agent
-                    </h3>
-
-                    <p className="mt-5 max-w-xl text-sm md:text-base leading-7 text-zinc-500">
-                      I built this pipeline to turn my Apple Music listening
-                      history into data I could actually query. It cleans the
-                      export with Python and Pandas, stores 172,899 events in
-                      PostgreSQL running through Docker, and uses four SQL views
-                      for repeatable analysis.
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mt-6">
-                      {[
-                        "Python",
-                        "Pandas",
-                        "Docker",
-                        "PostgreSQL",
-                        "SQL",
-                        "ETL",
-                      ].map((item) => (
-                        <span key={item} className="mini-tag">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-wrap gap-3 mt-8">
-                      <a
-                        href="/projects/music-insights-agent"
-                        className="premium-button"
-                      >
-                        View Case Study
-                      </a>
-
-                      <a
-                        href="https://github.com/Mohamed254-pixel/music-insights-agent"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ghost-button"
-                      >
-                        <LuGithub size={14} />
-                        Source Code ↗
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="border-t lg:border-t-0 lg:border-l border-white/10 bg-white/[0.018] p-7 md:p-10">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-700">
-                      Project Results
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-3 mt-6">
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">278,231</p>
-
-                        <p className="text-xs text-zinc-600 mt-2">source rows</p>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">172,899</p>
-
-                        <p className="text-xs text-zinc-600 mt-2">
-                          database events
-                        </p>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">160,417</p>
-
-                        <p className="text-xs text-zinc-600 mt-2">
-                          listening events
-                        </p>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                        <p className="text-2xl font-semibold">4</p>
-
-                        <p className="text-xs text-zinc-600 mt-2">
-                          SQL analytics views
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-700">
-                        Architecture
-                      </p>
-
-                      <p className="mt-3 text-sm leading-7 text-zinc-400">
-                        Apple Music Export → Python and Pandas → Parquet →
-                        Dockerized PostgreSQL → SQL Views → Analytics Agent
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* SECONDARY PROJECTS */}
-              <div className="grid md:grid-cols-2 gap-5">
-                <div className="project-card project-card-pro p-7">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-xs text-zinc-700">
-                      02
-                    </span>
-
-                    <StatusBadge>
-                      Validated Pipeline
-                    </StatusBadge>
-                  </div>
-
-                  <h3 className="mt-7 text-2xl font-semibold">
-                    Soccer Data Pipeline
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-6 text-zinc-600">
-                    Dockerized Premier League ETL pipeline orchestrated with Apache
-                    Airflow. Five ordered tasks extract and load match, team, and venue
-                    data into MySQL before running nine automated data-quality checks.
-                  </p>
-
-                  <div className="project-metric-row">
-                    <span>
-                      <strong>380</strong>{" "}
-                      matches
-                    </span>
-
-                    <span>
-                      <strong>5</strong>{" "}
-                      Airflow tasks
-                    </span>
-                  </div>
-
-                  <p className="mt-5 text-xs text-zinc-700">
-                    Python · Pandas · MySQL · Docker · Apache Airflow
-                  </p>
-
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    <a
-                      href="/projects/soccer-data-pipeline"
-                      className="ghost-button"
-                    >
-                      Case Study →
-                    </a>
-
-                    <a
-                      href="https://github.com/Mohamed254-pixel/soccer-data-pipeline"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ghost-button"
-                    >
-                      GitHub ↗
-                    </a>
-                  </div>
-                </div>
-
-                <div className="project-card project-card-pro p-7">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-xs text-zinc-700">03</span>
-
-                    <StatusBadge>Completed</StatusBadge>
-                  </div>
-
-                  <h3 className="text-2xl font-semibold mt-7">
-                    Customer Segmentation
-                  </h3>
-
-                  <p className="text-zinc-600 mt-3 text-sm leading-6">
-                    Customer analytics project using K-Means clustering to
-                    organize customer records into interpretable segments.
-                  </p>
-
-                  <div className="project-metric-row">
-                    <span>
-                      <strong>500+</strong> records
-                    </span>
-
-                    <span>
-                      <strong>4</strong> clusters
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-zinc-700 mt-5">
-                    Python · Pandas · K-Means · Matplotlib
-                  </p>
-
-                  <div className="flex flex-wrap gap-3 mt-7">
-                    <a
-                      href="/projects/customer-segmentation"
-                      className="ghost-button"
-                    >
-                      Case Study →
-                    </a>
-
-                    <a
-                      href="https://github.com/Mohamed254-pixel/customer-segmentation"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ghost-button"
-                    >
-                      GitHub ↗
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* CERTIFICATES */}
-          {activeTab === "certificates" && (
-            <div className="grid md:grid-cols-2 gap-5 mt-10">
-              <div className="project-card p-8 group">
-                <p className="text-xs text-zinc-600 tracking-[0.25em] uppercase">
-                  Google · Coursera
-                </p>
-
-                <h3 className="text-2xl font-semibold mt-4">
-                  Google Data Analytics Professional Certificate
-                </h3>
-
-                <p className="text-zinc-600 mt-4 text-sm leading-6">
-                  Professional training in data analysis, spreadsheets, SQL,
-                  Tableau, R, data cleaning, and visualization.
-                </p>
-
-                <div className="mt-6 grid sm:grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                    <p className="text-xs text-zinc-700 uppercase tracking-[0.18em]">
-                      Issued
-                    </p>
-
-                    <p className="text-sm text-zinc-300 mt-2">
-                      August 15, 2025
-                    </p>
-                  </div>
-
-                  <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                    <p className="text-xs text-zinc-700 uppercase tracking-[0.18em]">
-                      Credential ID
-                    </p>
-
-                    <p className="text-sm text-zinc-300 mt-2">SEN3EZJEPCLN</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-3 mt-6">
-                  <a
-                    href="/google-data-analytics-certificate.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="premium-button"
-                  >
-                    <LuFileText size={14} />
-                    View Certificate ↗
-                  </a>
-
-                  <a
-                    href="https://www.coursera.org/account/accomplishments/professional-cert/certificate/SEN3EZJEPCLN"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ghost-button"
-                  >
-                    <LuExternalLink size={14} />
-                    Verify Credential
-                  </a>
-                </div>
-              </div>
-
-              <div className="project-card p-8 flex items-center justify-center min-h-[250px]">
-                <p className="text-zinc-700 text-sm">More coming soon</p>
-              </div>
-            </div>
-          )}
-
-          {/* TECH STACK */}
-          {activeTab === "stack" && (
-            <div className="tech-category-grid mt-10">
-              {techCategories.map((category, categoryIndex) => (
-                <div
-                  key={category.name}
-                  className="tech-category-card spotlight-card"
-                >
-                  <div className="tech-category-top">
-                    <span className="tech-category-index">
-                      {String(categoryIndex + 1).padStart(2, "0")}
-                    </span>
-
-                    <div>
-                      <h3>{category.name}</h3>
-
-                      <p>{category.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="tech-category-items">
-                    {category.items.map(({ Icon, name }) => (
-                      <div key={name} className="tech-category-item">
-                        <span className="tech-category-icon">
-                          <Icon aria-hidden="true" />
-                        </span>
-
-                        <span>{name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </Reveal>
       </section>
 
